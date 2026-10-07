@@ -1,0 +1,2715 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>企业级 AI Agent 框架选型说明书</title><meta name="description" content="四框架、16类64项比较、场景推荐、证据与验收。">
+<style>:root{--ink:#202124;--muted:#5f6368;--blue:#1765c1;--line:#dadce0;--paper:#fff;--soft:#f6f8fa;--nav:252px}
+*{box-sizing:border-box}html{scroll-padding-top:86px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.85 "Segoe UI","Microsoft YaHei",system-ui,sans-serif}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible{outline:3px solid #8ab4f8;outline-offset:3px}
+header{height:65px;position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px}.brand{font-size:17px;font-weight:650;letter-spacing:.2px}.brand span{font-size:13px;font-weight:400;color:var(--muted);margin-left:14px}.tools{display:flex;align-items:center;gap:22px;font-size:14px}button{font:inherit;color:var(--blue);border:1px solid var(--line);border-radius:4px;background:white;padding:6px 12px;cursor:pointer}
+aside{position:fixed;top:65px;bottom:0;left:0;width:var(--nav);overflow-y:auto;border-right:1px solid var(--line);padding:26px 18px 40px}.nav-title{font-size:13px;font-weight:650;color:var(--muted);padding:0 9px 12px}aside a{display:block;font-size:13px;line-height:1.5;padding:7px 9px;border-radius:3px;color:#42464c}aside a.sub{padding-left:22px;font-size:12px;color:#60656e}aside a.active{background:#e8f0fe;color:var(--blue);font-weight:650}.nav-help{font-size:11px;color:var(--muted);padding:18px 9px}
+main{margin-left:var(--nav);max-width:1180px;padding:44px 64px 85px}.doc-meta{font-size:13px;color:var(--muted);margin-bottom:15px}h1{font-size:32px;font-weight:600;line-height:1.4;margin:0 0 18px}h2{font-size:26px;font-weight:600;line-height:1.5;margin:56px 0 22px;padding-top:6px;border-bottom:1px solid #e6e8eb;padding-bottom:10px}h3{font-size:21px;font-weight:600;line-height:1.5;margin:32px 0 16px}h4{font-size:18px;font-weight:600;line-height:1.6;margin:27px 0 13px}p{margin:14px 0}ul,ol{padding-left:25px;margin:14px 0}li{margin:7px 0}strong{font-weight:650}blockquote{border-left:4px solid #8ab4f8;background:#f3f7fe;margin:20px 0;padding:10px 20px}code{font:13px/1.7 Consolas,"Cascadia Code",monospace;background:#f1f3f4;border-radius:3px;padding:2px 5px;overflow-wrap:anywhere}pre{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:5px;padding:18px 20px;overflow:auto;line-height:1.65}pre code{background:none;padding:0;overflow-wrap:normal;white-space:pre}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.65;margin:4px 0}th{background:#f3f5f7;font-weight:650;text-align:left;color:#3c4043}th,td{border:1px solid #dfe3e7;padding:11px 13px;vertical-align:top}tbody tr:nth-child(even){background:#fafbfc}td{min-width:80px}td:first-child{min-width:130px}.table-scroll{overflow-x:auto;margin:22px 0;max-width:100%}.table-scroll:focus-visible{outline:2px solid #8ab4f8}footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:22px;margin-top:55px}.skip{position:fixed;top:-100px;left:15px;background:#fff;z-index:8;padding:8px}.skip:focus{top:6px}
+@media(min-width:1600px){main{margin-left:calc(var(--nav) + 40px)}}
+@media(max-width:1100px){:root{--nav:220px}main{padding:35px 32px}header{padding:0 20px}.brand span{display:none}}
+@media(max-width:760px){header{height:auto;min-height:60px;flex-wrap:wrap;gap:8px;padding:12px 18px}aside{position:static;width:auto;border-right:0;border-bottom:1px solid var(--line);max-height:190px;overflow:auto;padding:15px 18px}aside a{display:inline-block;margin-right:6px;vertical-align:top}aside a.sub,.nav-help{display:none}.nav-title{padding-bottom:6px}main{margin-left:0;padding:28px 20px 60px}h1{font-size:27px}h2{font-size:23px;margin-top:40px}.brand{font-size:15px}.tools{font-size:12px;gap:14px}th,td{padding:9px 11px}.table-scroll{margin:18px 0}html{scroll-padding-top:105px}}
+@media print{@page{size:A4;margin:18mm 16mm}header,aside,.skip,.doc-meta,.tools{display:none!important}main{margin:0!important;padding:0!important;max-width:none;font-size:10pt;line-height:1.65}h1{font-size:23pt}h2{font-size:17pt;break-after:avoid;margin-top:26px}h3{font-size:14pt;break-after:avoid}h4{font-size:11pt;break-after:avoid}table{font-size:8pt}.table-scroll{overflow:visible}th,td{padding:5px 7px;min-width:0!important}thead{display:table-header-group}tr{break-inside:avoid}pre{font-size:8pt;white-space:pre-wrap;break-inside:auto}pre code{white-space:pre-wrap;word-break:break-word}a{color:#14518a}footer{font-size:8pt}body{background:white}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body>
+<a class="skip" href="#main">跳转到正文</a>
+<header><div class="brand">技术决策指南 <span>AI Agent Frameworks</span></div><div class="tools"><a href="Agent框架选型附件.zip" download>下载附件</a><button id="print-button" type="button">打印文档</button></div></header>
+<aside aria-label="文档目录"><div class="nav-title">本文目录</div><a href="#section-63ffcd5f8d" class="">范围与评估基线</a><a href="#section-1df98d46d3" class="">场景决策</a><a href="#section-fb19037194" class="">比较方法与评分矩阵</a><a href="#section-4786686804" class="">生命周期能力分析</a><a href="#section-173661b52c" class="sub">A 开发体验</a><a href="#section-b41fdd4397" class="sub">B 模型与工具接入</a><a href="#section-0d988af018" class="sub">C 流程控制</a><a href="#section-0d7b3c65d3" class="sub">D 状态与恢复</a><a href="#section-68fea18237" class="sub">E 用户交互</a><a href="#section-052b31a457" class="sub">F 权限与安全</a><a href="#section-98b7d99738" class="sub">G 运行控制</a><a href="#section-6830107acf" class="sub">H 测试与观测</a><a href="#section-6d3520c40e" class="sub">I 部署与存储</a><a href="#section-3c95562bde" class="sub">J 维护与生态</a><a href="#section-cc8cd18278" class="sub">K 成本与退出</a><a href="#section-8a9da296f7" class="sub">L 性能实测</a><a href="#section-389f404bdb" class="sub">M 记忆与知识</a><a href="#section-cef5efd13c" class="sub">N 扩展交互与协作</a><a href="#section-0249ffacc3" class="sub">O 发布与持续运行</a><a href="#section-6150401d35" class="sub">P 数据与运行资产</a><a href="#section-7ddfa7bd08" class="">关键边界与组合方式</a><a href="#section-a36cf2e15b" class="">核心代码与实验记录</a><a href="#section-188f160284" class="">采用前验收与落地步骤</a><a href="#section-a6c73c3c74" class="">本次文档验收与证据边界</a><a href="#section-046949c730" class="">来源与附件</a><p class="nav-help">Ctrl / ⌘ + F 搜索全文</p></aside>
+<main id="main"><div class="doc-meta">通用选型 · 版本 2.0 · 2026-10-07</div><h1 id="section-083fe9511e">企业级 AI Agent 框架选型说明书</h1>
+<p>版本 2.0 · 整合与复核日期：2026-10-07 · 通用选型，独立于现有业务背景</p>
+<p>本说明书帮助架构与开发团队在 LangChain、LangGraph、Google ADK 和 Eino 中选择合适路线。内容覆盖设计、开发、交互、恢复、安全、并发、测试、发布、数据治理、维护与成本。读者可以先完成场景决策，再沿编号查评分理由与证据。</p>
+<p><strong>技术路线建议：复杂且需要恢复的流程，推荐 LangGraph 作为编排核心；常规聊天和工具循环，推荐 LangChain；希望统一 Agent 开发与评测，或采用受支持实时语音链路，推荐 Google ADK；明确要求 Go 集成或交付，优先 Eino。</strong> 每项建议都有前提和换选条件。性能与生产稳定性的相对优胜结论尚未取得。</p>
+<p>阅读路线：决策者先读“范围与场景决策”；架构师读“比较矩阵”与关键能力分析；实现与验收人员读“核心代码”和“采用前验收”。所有完整代码、数据与复现说明均在同目录的唯一附件 <code>Agent框架选型附件.zip</code> 中。</p>
+<h2 id="section-63ffcd5f8d">范围与评估基线</h2>
+<p>本版比较开源框架与明确标出的扩展路径，不代入当前业务的运行时、并发数、数据库或预算。此前的评分与场景指南已经并入本文；读完本文不需要再打开另一个说明文档。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>候选</th>
+<th>本版基线</th>
+<th>主要责任</th>
+<th>使用边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain</td>
+<td>Python 1.4.3</td>
+<td>高层Agent循环、模型/工具与middleware</td>
+<td>Agent建立在LangGraph上，底层能力不重复扣分</td>
+</tr>
+<tr>
+<td>LangGraph</td>
+<td>Python 1.2.13</td>
+<td>显式state、节点、边、持久执行</td>
+<td>库本身不是任务调度与租户管理平台</td>
+</tr>
+<tr>
+<td>Google ADK</td>
+<td>Python 2.11.0</td>
+<td>Agent、Runner、Session、Workflow及eval</td>
+<td>各语言SDK和旧版/2.x路径分别核对</td>
+</tr>
+<tr>
+<td>Eino</td>
+<td>Go v0.9.21</td>
+<td>compose、ADK、middleware及组件</td>
+<td>扩展与存储实现另行锁定版本</td>
+</tr>
+</tbody>
+</table></div>
+<p>上述是2026-10-06研究时锁定的评估基线，本次整合没有把它们更新成“今天最新版本”。在线文档可能已演进，生产采用时应按锁定组合重新验证。核心包、provider、saver、协议adapter及商业平台有各自版本和许可。</p>
+<p>LangChain 与 LangGraph可以组合使用；Google ADK已有图工作流；Eino兼有Agent与显式编排。Python与Go列是不同语言路线，不能把语言偏好直接换算成框架性能分。Deep Agents、LangSmith、AG-UI、A2UI和MCP Apps在本文中按扩展或协议讨论。<a href="#source-s01">S01</a>、<a href="#source-s03">S03</a>、<a href="#source-s04">S04</a>、<a href="#source-s17">S17</a>、<a href="#source-s18">S18</a>、<a href="#source-s19">S19</a>、<a href="#source-s26">S26</a>、<a href="#source-s63">S63</a>。</p>
+<h2 id="section-1df98d46d3">场景决策</h2>
+<p>“首选”表示在该行前提成立时建议采用的路线；“换选条件”说明什么证据或约束会改变结论。选择框架后仍要完成部署与业务验收。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>场景与典型任务</th>
+<th>首选路线</th>
+<th>为什么选它</th>
+<th>何时改选</th>
+<th>对应比较点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常规聊天、查询、少量工具调用；无特殊流程拓扑</td>
+<td><strong>LangChain</strong></td>
+<td>create_agent 与 middleware 减少循环控制和接入代码</td>
+<td>出现必须固定的分支、并行汇总、多处等待或细粒度恢复，使用 LangGraph 控制外层流程</td>
+<td>A1、A3、B1、C1</td>
+</tr>
+<tr>
+<td>审批后执行、长任务、故障后继续、复杂分支与并行</td>
+<td><strong>LangGraph</strong></td>
+<td>state、节点、边和 checkpoint 让执行边界更清楚</td>
+<td>Go 是硬性要求时转 Eino；ADK 的 Workflow 满足全部流程且团队已有 ADK 基础时优先复用</td>
+<td>C1/C2、D1–D4、I3</td>
+</tr>
+<tr>
+<td>单轮知识问答、检索后回答、多数据源接入</td>
+<td><strong>LangChain 加检索组件</strong></td>
+<td>可以复用模型与数据集成，简单场景无需设计复杂图</td>
+<td>需要多阶段检索、交叉验证、人工补充和失败分支时转 LangGraph；Go 环境转 Eino</td>
+<td>B1、M3、C1</td>
+</tr>
+<tr>
+<td>多个 Agent 分工，希望统一 session、运行入口和质量评测</td>
+<td><strong>Google ADK</strong></td>
+<td>Agent、Session、Workflow 与 evaluation 有共同的开发路径</td>
+<td>自定义状态流转与故障边界比统一入口更重要时选 LangGraph；不能接受相关实验性组件时重新评估使用范围</td>
+<td>C3、H2、M1、J1</td>
+</tr>
+<tr>
+<td>Go 团队，需要在 Go 服务中集成 Agent 或以 Go 程序交付</td>
+<td><strong>Eino</strong></td>
+<td>compose、ADK、Go 类型和现有 Go 业务函数可组合，减少跨语言运行维护</td>
+<td>目标 provider/协议缺少可用扩展，或补齐恢复、存储的成本高于维护 Python 服务时选 LangGraph；ADK Go 另做 SDK 对照</td>
+<td>A2、I4、B3、D1、I2</td>
+</tr>
+<tr>
+<td>实时语音、用户插话、持续音视频交互</td>
+<td><strong>Google ADK 的 Live 路线</strong>，前提是支持目标模型与客户端链路</td>
+<td>四个候选中，本次确认了其专门的 Live/Voice 开发路径</td>
+<td>模型或音频链路不受支持时，单独选择实时运行组件，再用 LangGraph 等组织后台业务；不能把普通 token streaming 当替代</td>
+<td>N2、N1、E1</td>
+</tr>
+<tr>
+<td>Agent 拉起页面、生成表单/组件，用户操作后继续复杂任务</td>
+<td><strong>LangGraph 加独立的 UI 协议与 renderer</strong></td>
+<td>后端多步骤交互由图控制，前端呈现由协议与组件系统负责</td>
+<td>只有少量固定表单时 LangChain 已足够；Go 硬约束时 Eino；已有 ADK 前端适配时复用 ADK</td>
+<td>D3、E1–E4、F1</td>
+</tr>
+<tr>
+<td>多租户 SaaS，有资源配额、权限和审计要求</td>
+<td><strong>复杂业务默认 LangGraph，加独立授权、任务调度和租户数据治理</strong></td>
+<td>编排可控便于划分策略执行点；安全与公平调度仍独立实现</td>
+<td>Go 交付优先时选 Eino 加相同治理；若要求安装框架即可获得完整租户隔离，这四个开源库单独都不满足</td>
+<td>F1–F4、G4、H4、I3</td>
+</tr>
+<tr>
+<td>私有化、禁止公网依赖</td>
+<td><strong>按业务复杂度选 LangChain/LangGraph；Go 交付选 Eino</strong></td>
+<td>私有化本身不排除这几种库；关键是模型、存储和扩展的实际外联要求</td>
+<td>已有 ADK 私有化部署经验可选 ADK；任何方案存在无法关闭的外联或不可接受许可时淘汰该具体组合</td>
+<td>I1、I4、K1/K2</td>
+</tr>
+<tr>
+<td>目标是最低内存、最高吞吐或最低总成本</td>
+<td><strong>不能仅据当前数据指定冠军；按上述场景先定功能基线，再以同场测试决定</strong></td>
+<td>当前没有四框架相同负载的结果；语言特性不能换算为端到端性能</td>
+<td>同硬件、同模型、同持久性与正确性要求下测得不达标，即更换部署方案或框架</td>
+<td>L1–L4、G1、K2/K3</td>
+</tr>
+</tbody>
+</table></div>
+<p>上表 AI2UI、SaaS、私有化组合是本文的架构建议，不是已完成集成验证的产品清单。相关原生机制和限制见下文相应编号；AG-UI、A2UI 和 MCP Apps 的职责也需分别核实。<a href="https://docs.langchain.com/oss/python/langgraph/streaming">Streaming</a>、<a href="https://docs.ag-ui.com/introduction">AG-UI</a>、<a href="https://a2ui.org/specification/v0.9.1-a2ui/">A2UI</a>、<a href="https://github.com/modelcontextprotocol/ext-apps">MCP Apps</a>。</p>
+<h3 id="section-1f2e5f1e8b">为什么复杂可恢复流程推荐 LangGraph</h3>
+<p>此处“复杂”有具体含义：存在必须执行的业务校验、明确分支、并行汇总、多次等待用户、进程退出后的继续执行，而不是单纯 prompt 很长或工具很多。这类系统需要把模型决策放在可检查的流程中。LangGraph 的直接图编排、状态管理与持久化契约覆盖这些需求，所以在没有语言硬约束时，本报告推荐它作为默认编排核心。<a href="https://docs.langchain.com/oss/python/langgraph/graph-api">Graph API</a>、<a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">Checkpointers</a>、<a href="https://docs.langchain.com/oss/python/langgraph/interrupts">Interrupts</a>。</p>
+<p>选择它需要接受两项成本：团队要明确设计 state、节点边界和重试语义；还要建设任务调度、权限、幂等、存储运维和前端接入。LangGraph 不是完整运营平台。如果任务只是问答与工具循环，这些设计可能增加不必要的维护工作，此时 LangChain 更合适。</p>
+<p>本地 C07 已验证 LangGraph 的有限恢复路径，因此此建议除了文档还有局部实测依据。但 ADK 和 Eino 没有在本次完成相同恢复实验，不能据此宣称它们恢复更差。选择 LangGraph 的理由是能力与该场景的匹配程度；性能、生产稳定性和整体成本仍未形成比较结论。</p>
+<h3 id="section-3afc279ec8">采用与换选条件</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>框架</th>
+<th>建议采用的前提</th>
+<th>不建议作为默认选择的情况</th>
+<th>改变结论的关键证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain</td>
+<td>常规 Agent 循环已满足需求，重视模型/工具接入速度</td>
+<td>大量业务逻辑被迫塞进 middleware，状态与顺序已经难以解释</td>
+<td>增加 LangGraph 外层流程后，能否明显简化业务分支与恢复逻辑</td>
+</tr>
+<tr>
+<td>LangGraph</td>
+<td>必须显式控制流程与状态，并愿意维护编排代码</td>
+<td>简单任务没有用到图的控制能力；或目标平台不能接受相应运行时</td>
+<td>目标数据库恢复、重复操作防护、跨版本任务继续执行是否通过</td>
+</tr>
+<tr>
+<td>Google ADK</td>
+<td>希望用统一的 Agent、session、eval 路线，或目标实时交互属于已支持范围</td>
+<td>必需集成与所选 2.x 路线不兼容；关键能力仅实验性且不能接受变动</td>
+<td>精确到 SDK/模型/transport 的兼容测试，以及 Workflow 恢复与升级测试</td>
+</tr>
+<tr>
+<td>Eino</td>
+<td>Go 是实际工程要求，目标模型与工具已有可用 Go 接入</td>
+<td>仅凭“Go 更快”选型，但没有性能数据；缺失组件造成大量自建</td>
+<td>编译交付、真实存储恢复、目标协议兼容和端到端容量的实际结果</td>
+</tr>
+</tbody>
+</table></div>
+<p>Eino 特定 Workflow Agent 的上下文共享限制已经在 v0.9.21 源码中核对；它应影响协作模式选择，不能扩大成“整个 Eino 不适合企业”。同样，ADK 的图编排已经存在，不能继续用早期能力边界评价当前版本。<a href="https://raw.githubusercontent.com/cloudwego/eino/v0.9.21/adk/workflow.go">Eino v0.9.21 Workflow Agent 源码</a>、<a href="https://adk.dev/graphs/">ADK graph workflows</a>。</p>
+<h3 id="section-1ce696f8e3">从推荐到实际决策</h3>
+<ol>
+<li><strong>先确定不能违反的条件。</strong> 例如必须 Go、必须离线、指定数据库或指定语音模型；只有真实硬约束才能淘汰路线，不用偏好冒充限制。</li>
+<li><strong>按最主要的任务形态选首选。</strong> 普通循环选 LangChain，满足显式流程与恢复前提时选 LangGraph，统一 ADK 开发评测或受支持 Live 场景选 ADK，Go 交付选 Eino。</li>
+<li><strong>为首选指定一个确实可能替代它的备选。</strong> 例如复杂流程用 LangGraph 对照 ADK Workflow；Go 工程用 Eino 对照单独核实过的 ADK Go，不把 Python ADK 的分数直接移给 Go。</li>
+<li><strong>用能推翻首选的实验验收。</strong> 测试崩溃后是否重复外部操作、权限撤销后能否继续越权、UI 重复提交、升级后的旧任务、资源与时延预算。失败意味着修正组合或换选，不以总分较高为理由放行。</li>
+</ol>
+<p><strong>本报告已经给出技术路线结论；生产上线结论需要上述验收。</strong> 不计算无场景总分，是为了避免把无关能力加在一起，不是回避推荐。后续可给每种明确场景设置权重，但不能用加权得分抵消权限隔离或业务正确性失败。</p>
+<h3 id="section-dc323edd86">决策优先级与可能改变推荐的证据</h3>
+<p>LangGraph的默认推荐限定在“显式复杂流程、持久恢复、可接受其运行时、团队能维护编排代码”这组条件。本文优先考虑运行状态与恢复边界能否解释和验收，其次考虑集成与交付成本。本地探针增加了对这一组合的有限信心；ADK/Eino未做同场探针，不能由此推断它们更不稳定。</p>
+<p>恢复契约有可解释的差异：LangGraph提供super-step与pending writes的保存契约；Eino的该版本图运行以中断保存为主要checkpoint路径，store需实现，恢复需保持图与调用配置一致；ADK resume文档对工具重复、自定义Agent和开发入口给出限制，不能直接等同于所有2.x图的崩溃恢复。选型应验收实际使用路径。</p>
+<p>如果ADK Workflow已覆盖目标流程、恢复与升级验收通过，而且统一session/eval减少工程成本，应优先复用ADK。Go硬约束下，若Eino的目标存储与协议验收通过，应优先Eino。没有特殊拓扑时，LangChain可使用相同底层恢复能力，减少起步代码。推荐是可以被这些证据改变的工程决策。<a href="#source-s06">S06</a>、<a href="#source-s19">S19</a>、<a href="#source-s21">S21</a>、<a href="#source-s27">S27</a>、<a href="#source-s28">S28</a>、<a href="#source-s73">S73</a>。</p>
+<h2 id="section-fb19037194">比较方法与评分矩阵</h2>
+<h3 id="section-005e2ed1c7">如何解释分数</h3>
+<p>分数衡量该项能力的<strong>工程便利程度</strong>。先确认机制或维护中的集成，再看覆盖范围，最后列应用必须完成的工作。数字为本报告的工程判断，引用作者没有给框架这些分数。一个分差不能解释成20%的量化优势。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>分值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>有直接且可组合的常用机制，该项额外建设较少</td>
+</tr>
+<tr>
+<td>4</td>
+<td>有可复用实现路径，仍有配置、适配或使用限制</td>
+</tr>
+<tr>
+<td>3</td>
+<td>有基础机制或集成路径，需要明显的应用组合</td>
+</tr>
+<tr>
+<td>2</td>
+<td>主要由应用或基础设施负责，专门支持有限</td>
+</tr>
+<tr>
+<td>1</td>
+<td>已确认主要能力有明显缺口；本版不因未找到文档而给1分</td>
+</tr>
+<tr>
+<td>U</td>
+<td>证据不足或必须同场实测；不是0分，也不代表不支持</td>
+</tr>
+</tbody>
+</table></div>
+<p>N 表示框架或同项目SDK；E 表示额外包、协议SDK或服务；A 表示应用自建或治理。<code>4N+E</code>表示原生机制加扩展，<code>2A</code>表示主要应用责任。E不一定收费，N也需要配置。</p>
+<p>证据分为：D（官方文档/源码）、T（局部实测）、U（待验证）。每个比较点给出对应来源与验收方法；完整测试状态集中列在代码章。配置合理并不证明生产安全，接口存在并不证明性能达标。</p>
+<p>本版共16类64项。不计算无场景总分；权限、业务正确性等硬约束不能靠其他高分抵消。计算项目权重时还要防止重复计算：checkpoint与短期记忆、流程控制与多Agent、streaming与UI交互之间有关联。</p>
+<h3 id="section-87e8103867">常用术语</h3>
+<ul>
+<li><strong>Checkpoint / state / run</strong>：分别指执行记录、运行状态和一次任务；checkpoint保存了什么、何时保存，要以具体实现为准。</li>
+<li><strong>MCP（Model Context Protocol）/ SDK（Software Development Kit）</strong>：前者用于模型应用接入工具和资源，后者是开发接口与库；接口兼容需按版本确认。</li>
+<li><strong>HITL（Human-in-the-loop）/ AI2UI</strong>：前者是运行中由人补充或确认，后者在本文泛指Agent与界面交互；A2UI是其中一种具体界面协议。</li>
+<li><strong>RAG（Retrieval-augmented generation）/ tracing / provider</strong>：分别是检索后生成、记录调用链、具体模型供应商或适配实现。</li>
+<li><strong>P95 / RSS / GIL</strong>：分别是95%样本不超过的时延、进程驻留内存、CPython解释器锁；三者不能互相替代评价系统性能。</li>
+<li><strong>RPO / RTO</strong>：分别表示故障恢复可接受的数据损失时间范围、恢复服务所需时间目标。</li>
+</ul>
+<h3 id="section-0d8fe58f48">完整矩阵</h3>
+<p>按编号跳转即可查看定义、各框架分析、引用及验证办法。相同底层能力使用相同分数；高层入口与任意复杂图的控制能力仍分开比较。</p>
+<h4 id="section-79f946c6e2">A 开发体验</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-a1">A1 简单 Agent 的起步成本</a></td>
+<td>5N</td>
+<td>3N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-a2">A2 数据类型与输入校验</a></td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-a3">A3 扩展与拦截点</a></td>
+<td>5N</td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-a4">A4 业务代码与框架解耦</a></td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-4db8ab8a7f">B 模型与工具接入</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-b1">B1 模型供应商与本地模型</a></td>
+<td>4E</td>
+<td>4E</td>
+<td>4N+E</td>
+<td>4E</td>
+</tr>
+<tr>
+<td><a href="#criterion-b2">B2 Structured output</a></td>
+<td>5N+E</td>
+<td>4E+A</td>
+<td>4N+E</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-b3">B3 MCP 接入</a></td>
+<td>4E</td>
+<td>4E</td>
+<td>4N+E</td>
+<td>4E</td>
+</tr>
+<tr>
+<td><a href="#criterion-b4">B4 普通 API / OpenAPI 接入</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>4N+E</td>
+<td>3E+A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-fc5ffbf812">C 流程控制</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-c1">C1 分支、循环与确定性步骤</a></td>
+<td>3N+E</td>
+<td>5N</td>
+<td>5N</td>
+<td>5N</td>
+</tr>
+<tr>
+<td><a href="#criterion-c2">C2 并行执行与结果合并</a></td>
+<td>3N+E</td>
+<td>5N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-c3">C3 多 Agent 分工</a></td>
+<td>4N+E</td>
+<td>5N</td>
+<td>5N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-c4">C4 Agent 之间的上下文隔离</a></td>
+<td>4A+E</td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-570eb4aaa3">D 状态与恢复</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-d1">D1 Checkpoint 持久化</a></td>
+<td>5N+E</td>
+<td>5N+E</td>
+<td>4N+E</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-d2">D2 崩溃重放与副作用防重</a></td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>2A</td>
+</tr>
+<tr>
+<td><a href="#criterion-d3">D3 Human-in-the-loop</a></td>
+<td>5N+E</td>
+<td>5N+E</td>
+<td>4N</td>
+<td>4N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-d4">D4 执行历史、回放与版本升级</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-55c0cd60d8">E 用户交互</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-e1">E1 Streaming 与自定义事件</a></td>
+<td>5N</td>
+<td>5N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-e2">E2 动态表单与 Generative UI</a></td>
+<td>4E+A</td>
+<td>4N+E+A</td>
+<td>4N+E+A</td>
+<td>4E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-e3">E3 前端操作与受控页面跳转</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>3E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-e4">E4 断线重连与 UI 状态恢复</a></td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>2A</td>
+<td>2A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-db38d5b740">F 权限与安全</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-f1">F1 身份认证与工具授权</a></td>
+<td>3N+A</td>
+<td>3A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-f2">F2 多租户数据隔离</a></td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+</tr>
+<tr>
+<td><a href="#criterion-f3">F3 Secrets 与敏感数据</a></td>
+<td>3N+A</td>
+<td>3A</td>
+<td>3N+A</td>
+<td>3A</td>
+</tr>
+<tr>
+<td><a href="#criterion-f4">F4 Prompt injection 与代码执行隔离</a></td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-1ebd87ed78">G 运行控制</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-g1">G1 异步 I/O</a></td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-g2">G2 重试、超时与失败处理</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-g3">G3 取消、暂停与后台任务</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-g4">G4 配额、公平调度与背压</a></td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-f7fcbea964">H 测试与观测</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-h1">H1 Tracing 与执行排错</a></td>
+<td>4E</td>
+<td>4E</td>
+<td>4N+E</td>
+<td>4E</td>
+</tr>
+<tr>
+<td><a href="#criterion-h2">H2 自动化质量评测</a></td>
+<td>4E</td>
+<td>4E</td>
+<td>4N+E</td>
+<td>3A+E</td>
+</tr>
+<tr>
+<td><a href="#criterion-h3">H3 单元测试与故障注入</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-h4">H4 业务指标与审计</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>3N+E+A</td>
+<td>3E+A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-9c30c15c9d">I 部署与存储</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-i1">I1 私有化与离线运行</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-i2">I2 持久化后端与数据库</a></td>
+<td>4E</td>
+<td>4E</td>
+<td>4N+E</td>
+<td>3A+E</td>
+</tr>
+<tr>
+<td><a href="#criterion-i3">I3 多副本与高可用</a></td>
+<td>3N+A+E</td>
+<td>3N+A+E</td>
+<td>3N+A+E</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-i4">I4 语言、运行时与交付形态</a></td>
+<td>4E</td>
+<td>4N+E</td>
+<td>4N+E</td>
+<td>4N</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-3588ff8a86">J 维护与生态</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-j1">J1 升级兼容性</a></td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-j2">J2 文档与问题定位材料</a></td>
+<td>3N</td>
+<td>3N</td>
+<td>3N</td>
+<td>3N</td>
+</tr>
+<tr>
+<td><a href="#criterion-j3">J3 维护活跃度与问题响应</a></td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-j4">J4 依赖与供应链治理</a></td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-b5cc448f03">K 成本与退出</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-k1">K1 开源许可证</a></td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+<tr>
+<td><a href="#criterion-k2">K2 商业平台依赖</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>3N+E+A</td>
+<td>3N+E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-k3">K3 Token 与调用预算</a></td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+<td>4N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-k4">K4 更换框架与数据迁移</a></td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-fb3c28781d">L 性能实测</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-l1">L1 相同工作负载下的时延与吞吐</a></td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-l2">L2 内存、CPU与启动开销</a></td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-l3">L3 长期运行与状态增长</a></td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-l4">L4 模型效果与系统成功率</a></td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+<td>U</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-ba4f8e5ca3">M 记忆与知识</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-m1">M1 会话历史与短期记忆</a></td>
+<td>5N+E</td>
+<td>5N+E</td>
+<td>4N+E</td>
+<td>3N+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-m2">M2 跨会话长期记忆</a></td>
+<td>4E+A</td>
+<td>4N+E+A</td>
+<td>4N+E+A</td>
+<td>3E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-m3">M3 RAG 数据处理与检索</a></td>
+<td>5E</td>
+<td>4E+A</td>
+<td>3N+E</td>
+<td>4E</td>
+</tr>
+<tr>
+<td><a href="#criterion-m4">M4 Context 压缩与摘要</a></td>
+<td>4N</td>
+<td>4E+A</td>
+<td>4N</td>
+<td>4N</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-9850d1afc7">N 扩展交互与协作</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-n1">N1 多模态输入输出</a></td>
+<td>4N+E</td>
+<td>4E+A</td>
+<td>4N+E</td>
+<td>4N+E</td>
+</tr>
+<tr>
+<td><a href="#criterion-n2">N2 实时语音与打断</a></td>
+<td>U</td>
+<td>U</td>
+<td>4N+E</td>
+<td>U</td>
+</tr>
+<tr>
+<td><a href="#criterion-n3">N3 跨服务 Agent 协作 / A2A</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>4E</td>
+<td>3E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-n4">N4 Skills 与按需加载能力</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>4N+E</td>
+<td>4N</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-08f20e797c">O 发布与持续运行</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-o1">O1 Prompt、模型与配置版本</a></td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+<td>3A</td>
+</tr>
+<tr>
+<td><a href="#criterion-o2">O2 CI/CD、灰度发布与回滚</a></td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+</tr>
+<tr>
+<td><a href="#criterion-o3">O3 定时任务与外部事件触发</a></td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+<td>2A+E</td>
+</tr>
+<tr>
+<td><a href="#criterion-o4">O4 长时间等待与优雅退出</a></td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+<td>3N+A</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="section-9127adca24">P 数据与运行资产</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>比较点</th>
+<th>LangChain</th>
+<th>LangGraph</th>
+<th>Google ADK</th>
+<th>Eino</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#criterion-p1">P1 文件、报告与生成物管理</a></td>
+<td>3E+A</td>
+<td>3E+A</td>
+<td>4N+E</td>
+<td>3E+A</td>
+</tr>
+<tr>
+<td><a href="#criterion-p2">P2 数据保留、脱敏与删除</a></td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+</tr>
+<tr>
+<td><a href="#criterion-p3">P3 备份、灾难恢复与RPO/RTO</a></td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+<td>2A</td>
+</tr>
+<tr>
+<td><a href="#criterion-p4">P4 工具目录、schema与协议版本</a></td>
+<td>3A+E</td>
+<td>3A+E</td>
+<td>3A+E</td>
+<td>3A+E</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-4786686804">生命周期能力分析</h2>
+<p>本章按工程主题展开。每个评分项的验收方法均为建议执行的办法；只有代码章标为实测的局部行为已经执行。</p>
+<h3 id="section-173661b52c">A 开发体验</h3>
+<p>先看开发者如何写代码和定位错误。简单Agent的起步成本，与复杂系统的可控制程度，应分别比较。</p>
+<p><strong>对选型的影响：</strong> 普通循环优先LangChain；代码中的业务函数在四种框架中都应独立于运行时。</p>
+<h4 id="criterion-a1">A1 简单 Agent 的起步成本</h4>
+<p>完成一次模型调用、一次工具调用，并拿到最终回答，需要搭建多少基础代码。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N：</strong> create_agent 封装常见模型—工具循环，简单任务代码少；复杂流程仍需理解运行机制。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N：</strong> 通常要先定义 state、node、edge；起步代码较多，换来对流程的直接控制。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> Agent、Runner 和工具定义形成统一入口；先理解 session 与 event 才容易排查运行问题。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> ChatModelAgent 和 Go 工具接口可快速组合；泛型、错误处理使代码比 Python 示例显式。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s05">S05</a>、<a href="#source-s19">S19</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 由熟悉各语言的开发者完成同一小任务，分别记录开发与排错时间，不能只数代码行。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a>–<a href="#code-c04">C04</a>。</p>
+<h4 id="criterion-a2">A2 数据类型与输入校验</h4>
+<p>是否能提前发现字段缺失、类型错误；模型输出是否还需在运行时验证。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N：</strong> 工具参数和结构化输出可用类型定义与 Pydantic；类型正确仍不代表业务含义正确。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N：</strong> state 可用 TypedDict/Pydantic 等描述；TypedDict 本身不会替所有节点做运行时校验。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> Python 的模型和工具 schema 提供结构约束，外部输入仍需业务校验。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> Go 泛型和 struct 可在编译期发现接口不匹配；JSON 与模型生成内容仍需运行时校验。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s41">S41</a>、<a href="#source-s42">S42</a>、<a href="#source-s43">S43</a>。</p>
+<p><strong>建议验证：</strong> 分别提交缺字段、错误类型、越界数值和额外字段，观察拒绝位置。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c02">C02</a>/<a href="#code-c04">C04</a>/<a href="#code-c05">C05</a>。</p>
+<h4 id="criterion-a3">A3 扩展与拦截点</h4>
+<p>能否在模型、工具调用前后统一插入校验、日志或替换逻辑。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N：</strong> middleware 直接覆盖常见 agent loop 环节，适合统一策略。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N：</strong> 可用节点、包装器和 runtime context；通用策略放在哪个边界需团队约定。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> callbacks/plugins 提供扩展入口，应确认当前使用的 Agent/Workflow 路径都经过这些入口。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> callback 和 ADK middleware 可扩展；不同版本的 state 改写时机需要回归。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s42">S42</a>、<a href="#source-s44">S44</a>、<a href="#source-s30">S30</a>。</p>
+<p><strong>建议验证：</strong> 正常、重试、resume 和子 Agent 四条路径都必须经过同一策略。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a>；各框架挂接位置依所选 API 配置。</p>
+<h4 id="criterion-a4">A4 业务代码与框架解耦</h4>
+<p>以后换框架或升级时，业务规则能保留多少。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3A：</strong> 工具函数可以独立，但 middleware 与消息类型容易扩散到业务代码。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> 图节点可调用普通函数；state 和 checkpoint 格式仍会形成框架依赖。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3A：</strong> 可把业务实现置于普通函数中；若业务直接依赖 ToolContext/Session，迁移成本增加。</p>
+</li>
+<li>
+<p><strong>Eino · 3A：</strong> 用普通 Go 接口和 context 包装业务逻辑较直接；compose/adk 类型仍应限制在接入层。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s42">S42</a>、<a href="#source-s44">S44</a>、<a href="#source-s43">S43</a>。</p>
+<p><strong>建议验证：</strong> 选一条业务规则，在不启动框架的测试里运行；再估算更换消息/状态类型需要改多少文件。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a> 是框架外的普通函数示例。</p>
+<h3 id="section-b41fdd4397">B 模型与工具接入</h3>
+<p>模型、MCP与HTTP工具是最容易复用生态的地方，也最容易出现“聊天可用、工具调用不兼容”的情况。接口存在和目标组件通过测试是两层证据。</p>
+<p><strong>对选型的影响：</strong> 已有adapter满足模型与协议时优先复用；缺少目标能力会推翻其他维度的优势。</p>
+<h4 id="criterion-b1">B1 模型供应商与本地模型</h4>
+<p>切换模型时能否复用接口，以及流式、tool calling 等能力是否一致。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> 统一模型接口和 provider packages 可复用；每种模型能力仍不同。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E：</strong> 可直接调用模型 SDK，或复用 LangChain provider packages；可复用接口，实际兼容范围仍需按模型验证。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 支持多个模型接入路径；Google 模型之外的功能需按 adapter 验证。</p>
+</li>
+<li>
+<p><strong>Eino · 4E：</strong> ChatModel 接口与 eino-ext 提供适配；必须核实所选模型的具体参数及事件支持。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s45">S45</a>、<a href="#source-s05">S05</a>、<a href="#source-s17">S17</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 对目标模型逐项测试工具调用、流式、usage、超时、错误码，而不只测试普通聊天。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a> 用本地 stub，仅证明工具循环，不证明真实模型兼容。</p>
+<h4 id="criterion-b2">B2 Structured output</h4>
+<p>模型是否能按指定 schema 返回数据，失败后是否易于处理。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N+E：</strong> 提供 provider/tool 两类结构化策略及验证入口；底层模型支持条件仍影响结果。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E+A：</strong> 节点可使用模型结构化接口并做显式验证；图的 state 类型不自动约束模型文本。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> LlmAgent 的结构化配置可用；同时使用 tools、schema 与具体模型时需要组合测试。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> Go 解码和工具 schema 能构成实现基础；尚未核对目标provider的原生schema约束、错误重试和tools组合，不作相对完整度评分。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s41">S41</a>、<a href="#source-s45">S45</a>、<a href="#source-s43">S43</a>、<a href="#source-s57">S57</a>。</p>
+<p><strong>建议验证：</strong> 测试错误 JSON、合法 JSON 但缺字段、超长输出、拒答，以及 tools+schema 同时开启。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c02">C02</a> 展示业务输入验证；不冒充模型 Structured output DEMO。</p>
+<h4 id="criterion-b3">B3 MCP 接入</h4>
+<p>能否列出远端工具、调用工具，并传递调用上下文。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> langchain-mcp-adapters 可把 MCP 工具接入 agent；连接生命周期要配置。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E：</strong> 复用相同 adapter 或直接 SDK；不必自行实现协议，但需自己控制节点与上下文。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 官方 MCP 工具路径存在；版本、transport 和用户凭据要逐项验证。</p>
+</li>
+<li>
+<p><strong>Eino · 4E：</strong> eino-ext 有 MCP 适配；SDK 变体与 _meta 行为需对照实际依赖。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s10">S10</a>、<a href="#source-s31">S31</a>、<a href="#source-s58">S58</a>。</p>
+<p><strong>建议验证：</strong> 测试 Streamable HTTP、工具清单刷新、重连、取消、错误返回、每请求身份，不能只看 tools/list 成功。</p>
+<h4 id="criterion-b4">B4 普通 API / OpenAPI 接入</h4>
+<p>已有 HTTP API 转成工具，需要多少手工描述和业务适配。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 可以把函数/HTTP 调用包装成工具；自动导入能力要按集成包评估。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 图可调用任意 HTTP 客户端；本身不承担 OpenAPI 文档治理。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 有官方 OpenAPI 工具路径，可减少基础描述工作；认证及响应语义仍要验证。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> Go 函数封装工具直接；声明导入、分页和风险审核通常仍由应用承担。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s10">S10</a>、<a href="#source-s42">S42</a>、<a href="#source-s59">S59</a>、<a href="#source-s43">S43</a>。</p>
+<p><strong>建议验证：</strong> 导入带分页、认证、枚举、oneOf 的同一 API，检查 schema 保真和错误表达。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a> 的普通函数工具仅展示接入入口。</p>
+<h3 id="section-0d988af018">C 流程控制</h3>
+<p>流程控制决定哪些步骤必须执行、并行结果如何合并、子Agent看到哪些信息。多Agent数量不直接代表质量。</p>
+<p><strong>对选型的影响：</strong> 显式复杂流程推荐LangGraph；ADK Workflow和Eino compose同样应进入备选验证。</p>
+<h4 id="criterion-c1">C1 分支、循环与确定性步骤</h4>
+<p>哪些步骤必须做、做完走哪一条路，能否在代码中明确表达。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+E：</strong> 常见 agent loop 已封装；任意复杂业务拓扑通常要进入 LangGraph。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N：</strong> StateGraph 直接定义节点和边，便于审查分支和终止条件。</p>
+</li>
+<li>
+<p><strong>Google ADK · 5N：</strong> 2.x Workflow 已有显式图，不能按早期版本认定其没有图编排。</p>
+</li>
+<li>
+<p><strong>Eino · 5N：</strong> compose Graph/Workflow 可以直接表达确定性步骤，适合与 Go 业务函数组合。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s42">S42</a>、<a href="#source-s19">S19</a>、<a href="#source-s60">S60</a>。</p>
+<p><strong>建议验证：</strong> 检查模型给出错误建议时，强制校验步骤仍不会被跳过。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c02">C02</a>/<a href="#code-c03">C03</a>/<a href="#code-c04">C04</a>。</p>
+<h4 id="criterion-c2">C2 并行执行与结果合并</h4>
+<p>多个步骤能否同时运行；写同一份状态时冲突怎么处理。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+E：</strong> 工具可以并行，复杂 fan-out/fan-in 更适合下沉到图。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N：</strong> 并行节点与 reducer 能明确合并规则；错误 reducer 仍可能覆盖结果。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> Parallel Agent 和 graph 路径可表达并行；共享状态及合并规则要明确。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> 图分支和并行 Agent 可用；共享对象仍须遵守 Go 并发安全约束。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s42">S42</a>、<a href="#source-s19">S19</a>、<a href="#source-s27">S27</a>、<a href="#source-s60">S60</a>。</p>
+<p><strong>建议验证：</strong> 让两个分支同时写状态，再让其中一个失败，检查结果与重试行为。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c08">C08</a> 的并发任务实验不是单图 fan-in 验证。</p>
+<h4 id="criterion-c3">C3 多 Agent 分工</h4>
+<p>能否按角色拆分任务，并控制交接、子任务生命周期。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+E：</strong> 提供多 Agent 组合模式；多角色不自动提高质量，要衡量额外调用。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N：</strong> 子图可明确分工、状态边界与返回路径，控制细但需要设计。</p>
+</li>
+<li>
+<p><strong>Google ADK · 5N：</strong> Agent tree、工作流及协作能力是主要设计内容，适合统一 Runner 管理。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> ADK 有子 Agent、AgentTool 等路径；应按所选模式验证消息交接。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s46">S46</a>、<a href="#source-s42">S42</a>、<a href="#source-s19">S19</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 同一问题对比单 Agent 与多 Agent 的成功率、token 和时延，避免只展示角色数量。</p>
+<h4 id="criterion-c4">C4 Agent 之间的上下文隔离</h4>
+<p>一个子 Agent 是否只看到它需要的信息，能否避免历史不断膨胀。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4A+E：</strong> 可显式构造子 Agent 输入；不能默认把所有 history 原样转发。 <a href="#source-s46">S46</a></p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 子图 state 和输入映射让信息边界显式；是否泄露共享state仍取决于应用输入与授权设计。 <a href="#source-s42">S42</a></p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+A：</strong> 可通过 session、state 和子 Agent 输入策略控制；要区分共享和局部信息。 <a href="#source-s22">S22</a></p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> AgentTool默认只接收模型生成的请求参数，完整history需要显式启用；特定Workflow Agent会共享上下文，应按协作模式选择。 <a href="#source-s72">S72</a>、<a href="#source-s67">S67</a></p>
+</li>
+</ul>
+<p>依据：<a href="#source-s46">S46</a>、<a href="#source-s42">S42</a>、<a href="#source-s22">S22</a>、<a href="#source-s67">S67</a>、<a href="#source-s72">S72</a>。</p>
+<p><strong>建议验证：</strong> 给一个子 Agent 填入仅它可见的标记，断言其他子 Agent 的模型输入中没有该标记。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a> 展示身份校验；不代替模型消息隔离测试。</p>
+<h3 id="section-0d7b3c65d3">D 状态与恢复</h3>
+<p>运行状态保存、用户等待、崩溃重试与升级恢复应分别核对。外部API成功但运行记录尚未提交，是所有路线都要处理的窗口。</p>
+<p><strong>对选型的影响：</strong> 细粒度恢复是LangGraph的主要推荐理由；业务幂等、防重和对账仍需单独设计。</p>
+<h4 id="criterion-d1">D1 Checkpoint 持久化</h4>
+<p>进程退出以后，是否还能读回执行状态；何时写入存储。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N+E：</strong> create_agent 依赖 LangGraph checkpointer，具备持久化基础；配置内存 saver 不算持久。 <a href="#source-s04">S04</a>、<a href="#source-s06">S06</a></p>
+</li>
+<li>
+<p><strong>LangGraph · 5N+E：</strong> super-step 与 pending writes 的保存契约明确，可接持久 saver。 <a href="#source-s06">S06</a></p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> Session/Event与resume提供恢复路径；官方文档对工具重复、自定义Agent、Web/CLI有明确限制。2.x Workflow组合未在本次验证。 <a href="#source-s21">S21</a></p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> 有中断保存与CheckPointStore，store由使用者实现；v0.9.21普通图运行不是默认每个完成节点都持久保存。中断恢复不等于任意强杀后的逐步恢复。 <a href="#source-s28">S28</a>、<a href="#source-s73">S73</a></p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s06">S06</a>、<a href="#source-s21">S21</a>、<a href="#source-s28">S28</a>、<a href="#source-s73">S73</a>。</p>
+<p><strong>建议验证：</strong> 分别在正常步骤后、人工等待中、工具调用中强杀，核对最后可恢复位置。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a>：真实 LangGraph 持久恢复代码与原始结果。</p>
+<h4 id="criterion-d2">D2 崩溃重放与副作用防重</h4>
+<p>恢复会重复哪些代码，能否避免重复扣款、发消息或执行操作。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> 继承底层恢复机制；外部副作用仍需要业务幂等。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N+A：</strong> 重放位置有明确语义；工具成功而 checkpoint 未提交的窗口仍需下游幂等。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> 官方 resume 明确工具可能运行多次，应自行避免重复副作用。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> 中断类型影响重入；外部操作结果和 checkpoint 不天然处于同一事务。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s07">S07</a>、<a href="#source-s21">S21</a>、<a href="#source-s28">S28</a>。</p>
+<p><strong>建议验证：</strong> 在远端提交后、状态提交前终止进程；必须能查询结果、防重或进入明确的不确定状态。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a>：effect_attempt=2，但模拟下游唯一操作只提交1次。</p>
+<h4 id="criterion-d3">D3 Human-in-the-loop</h4>
+<p>中途请求人补充、修改或批准，之后能否继续。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N+E：</strong> HumanInTheLoopMiddleware 适合工具审批和编辑；完整恢复仍需 durable saver。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N+E：</strong> interrupt/Command 可传结构化数据，适合多字段和业务交互。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> RequestInput 与 confirmation 提供交互入口；API/语言之间恢复细节不完全相同。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> 支持定向中断和带数据恢复；交互记录、有效期与 renderer 需要应用维护。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s61">S61</a>、<a href="#source-s07">S07</a>、<a href="#source-s20">S20</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 测试批准、拒绝、修改、多中断、超时，以及刷新页面后继续。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c02">C02</a>/<a href="#code-c03">C03</a>/<a href="#code-c07">C07</a>。</p>
+<h4 id="criterion-d4">D4 执行历史、回放与版本升级</h4>
+<p>能否查看过去状态；旧任务能否在新代码下恢复。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> 可用底层状态历史，但业务版本兼容仍自行管理。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 提供历史与 time travel；回放不撤销真实外部操作，也不保证任意改图兼容。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> 有 session/event 历史；resume 文档对停止后修改工作流有明确限制。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> 有状态序列化和迁移相关能力；类型、图结构及 middleware 语义变动要回归。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s21">S21</a>、<a href="#source-s30">S30</a>、<a href="#source-s74">S74</a>。</p>
+<p><strong>建议验证：</strong> 用旧版本生成挂起任务，再升级节点/schema，验证兼容、迁移或明确拒绝。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 是同版本恢复，不是跨版本测试。</p>
+<h3 id="section-68fea18237">E 用户交互</h3>
+<p>交互既包括文字流，也包括多字段表单、图表、既有页面和前端动作。恢复后能继续执行，不等于浏览器界面已经恢复。</p>
+<p><strong>对选型的影响：</strong> 复杂交互推荐图编排加UI协议；仅有固定表单时，高层Agent入口也可满足需求。</p>
+<h4 id="criterion-e1">E1 Streaming 与自定义事件</h4>
+<p>能否逐步显示文本、进度、状态和工具执行结果。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N：</strong> Agent 可流式输出消息与状态，需前端适配具体事件格式。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N：</strong> 提供多类流式事件，便于把图状态与业务进度分开。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> Runner/Event 提供流式路径；要定义用户可见与内部诊断事件的边界。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> StreamReader 与 AgentEvent 提供输出机制；消费者需要处理结束、错误和背压。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s08">S08</a>、<a href="#source-s19">S19</a>、<a href="#source-s27">S27</a>、<a href="#source-s60">S60</a>、<a href="#source-s74">S74</a>。</p>
+<p><strong>建议验证：</strong> 测试 token、progress、tool error、取消与断连；进度事件不能冒充模型首 token。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c08">C08</a> 涉及运行，不证明前端 Streaming 已接通。</p>
+<h4 id="criterion-e2">E2 动态表单与 Generative UI</h4>
+<p>Agent 能否要求填写多个字段、展示图表和可交互组件。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E+A：</strong> 可通过 UI adapter 和工具/交互载荷生成组件；不是 create_agent 自带网页。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+E+A：</strong> 结构化 interrupt 和自定义事件适合关联表单，renderer 与 catalog 另外实现。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E+A：</strong> RequestInput 携带输入需求，可连接交互层；开发 UI 不等于完整生产 UI。</p>
+</li>
+<li>
+<p><strong>Eino · 4E+A：</strong> 已有 A2UI 示例，可复用协议思路；实际组件与校验仍有工作量。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s33">S33</a>、<a href="#source-s35">S35</a>、<a href="#source-s20">S20</a>、<a href="#source-s32">S32</a>。</p>
+<p><strong>建议验证：</strong> 同一表单包含日期、资源树、联动字段和编辑计划，测试服务端校验与版本兼容。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c02">C02</a> 是结构化输入；<a href="#code-c05">C05</a> 是应用事件校验，无 renderer。</p>
+<h4 id="criterion-e3">E3 前端操作与受控页面跳转</h4>
+<p>能否打开详情页、更新筛选条件，且不能执行任意前端代码。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 可接前端工具事件；页面路由和允许操作由宿主管理。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 图输出 UI intent，再由宿主执行；图不应持有任意 DOM 权限。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3E+A：</strong> 工具或事件可表示 UI intent；认证与页面执行策略仍在宿主。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> A2UI/custom event 可承载请求；宿主决定允许的操作和参数。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s35">S35</a>、<a href="#source-s33">S33</a>、<a href="#source-s36">S36</a>。</p>
+<p><strong>建议验证：</strong> 允许 open_detail(resource_id)，拒绝任意 URL、JavaScript 和未经授权资源。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a>：open_detail 与 submit_query 白名单。</p>
+<h4 id="criterion-e4">E4 断线重连与 UI 状态恢复</h4>
+<p>浏览器刷新、换设备后，能否恢复等待中的表单和任务进度。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> 执行状态可持久，但 UI snapshot、事件游标和重复事件处理不是高层 Agent 自动提供。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N+A：</strong> 可据 checkpoint 重建业务状态；事件持久日志与前端一致性仍要补齐。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A：</strong> session/event 可以作为基础；须检查 SSE 断连是否会取消当前运行。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> 从 checkpoint 重建等待内容可行；surface 快照与事件恢复需应用设计。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s18">S18</a>、<a href="#source-s27">S27</a>、<a href="#source-s35">S35</a>、<a href="#source-s74">S74</a>。</p>
+<p><strong>建议验证：</strong> 断连后重发同一事件、恢复过期游标和多标签页提交，不能出现重复审批。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 只证明后端恢复；本版未实现可回放 SSE。</p>
+<h3 id="section-052b31a457">F 权限与安全</h3>
+<p>身份、权限、秘密数据与不可信内容必须在实际执行入口检查。这里的低分表示应用责任较多，不是已发现框架漏洞。</p>
+<p><strong>对选型的影响：</strong> 四者都需完整授权与数据治理；不能以某框架的总分代替越权测试。</p>
+<h4 id="criterion-f1">F1 身份认证与工具授权</h4>
+<p>谁可以使用哪个工具，是否会在每次实际执行前检查。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> middleware 有执行拦截点；真实身份及授权策略由应用提供。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> 可放独立授权节点或包装工具；thread_id 本身不是登录身份。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> callback/plugin 可检查调用；不能把 session user_id 当成已认证身份。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> context/middleware 可传受信身份；客户端 _meta 字段本身不可信。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s24">S24</a>、<a href="#source-s37">S37</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 伪造身份、绕过UI、从resume/子Agent入口调用同一工具时都应检查。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a>。</p>
+<h4 id="criterion-f2">F2 多租户数据隔离</h4>
+<p>会话、记忆、缓存、文件和历史是否可能被其他租户读取。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A：</strong> 需要在所有存储与工具入口加入租户约束；框架不是租户隔离产品。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A：</strong> namespace/thread 可组织数据，不能自动阻止使用别人 ID 访问。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A：</strong> app/user/session 提供分组，不替代服务端认证和完整访问控制。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> 需要严格的上下文与缓存键；goroutine 并发安全不等于租户隔离。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s27">S27</a>、<a href="#source-s24">S24</a>。</p>
+<p><strong>建议验证：</strong> 覆盖 get/list/history/export/delete/trace；两个租户使用相同本地用户ID也必须隔离。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a>/<a href="#code-c07">C07</a>；后者演示绕过接入层可直接读 saver。</p>
+<h4 id="criterion-f3">F3 Secrets 与敏感数据</h4>
+<p>密钥、用户数据是否会进入 prompt、checkpoint 或 tracing。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> 可用 middleware 做脱敏，但所有回调、模型和工具日志都要检查。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> state 是应用定义的；不把明文secret存进去才是关键，持久化不会自动消除泄露。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> 提供认证工具和安全实践；日志、session和模型输入仍需数据策略。</p>
+</li>
+<li>
+<p><strong>Eino · 3A：</strong> Go 字符串、HTTP库、日志仍可能持有副本；语言不能保证密钥绝无残留。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s24">S24</a>、<a href="#source-s06">S06</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 使用唯一假密钥跑完整流程，再搜索日志、checkpoint和trace，不用真实secret做测试。</p>
+<h4 id="criterion-f4">F4 Prompt injection 与代码执行隔离</h4>
+<p>不可信文档能否诱使 Agent 越权；执行代码时是否有 sandbox。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A+E：</strong> guardrail与工具限制可组合；提示词防护不能替代权限与sandbox。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A+E：</strong> 可明确控制每条执行路径；图结构本身不会消除注入。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A+E：</strong> 官方有安全实践与callback入口，可组合工具限制；本次无证据证明其注入防御或代码隔离强于其他框架。</p>
+</li>
+<li>
+<p><strong>Eino · 2A+E：</strong> 可在工具层强制检查并接sandbox；普通Go进程不是安全沙箱。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s24">S24</a>、<a href="#source-s37">S37</a>、<a href="#source-s40">S40</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 恶意检索文本、工具描述、文件路径和出站URL都纳入攻击测试；记录是否触发越权副作用。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a> 仅示范动作白名单，不是完整注入防御。</p>
+<h3 id="section-98b7d99738">G 运行控制</h3>
+<p>任务怎样等待、重试、取消和排队，决定系统在负载和错误下的行为。异步能力与生产容量分开比较。</p>
+<p><strong>对选型的影响：</strong> 先用非阻塞I/O和限额设计，再测瓶颈；Go和Python各自的机制不能替代负载测试。</p>
+<h4 id="criterion-g1">G1 异步 I/O</h4>
+<p>等待模型或API时，能否继续处理别的任务。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N：</strong> ainvoke/astream 等异步接口可用，底层同步调用仍可能拖慢任务。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N：</strong> 异步图节点适合I/O编排，必须避免在事件循环里做长时间同步计算。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> run_async 等运行方式支持异步；具体工具实现决定是否阻塞。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> Go context/goroutine 和框架运行接口适合并发I/O，仍需限额与取消传播。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s08">S08</a>、<a href="#source-s39">S39</a>、<a href="#source-s21">S21</a>、<a href="#source-s27">S27</a>、<a href="#source-s64">S64</a>。</p>
+<p><strong>建议验证：</strong> 用相同I/O延迟、连接池和并发数测试，分别记录等待与CPU时间。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c08">C08</a>。</p>
+<h4 id="criterion-g2">G2 重试、超时与失败处理</h4>
+<p>暂时错误能否重试；不可重试错误是否立即结束。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> middleware可覆盖重试/fallback；仍需避免底层SDK和上层重复重试放大请求。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 节点RetryPolicy等让失败边界明确；业务错误分类和远端幂等仍应用负责。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> 可用运行配置、回调与工具处理错误；需核实失败发生在哪层。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> 可以组合context deadline、节点和工具错误处理；不要只把所有error统一重试。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s42">S42</a>、<a href="#source-s44">S44</a>、<a href="#source-s60">S60</a>。</p>
+<p><strong>建议验证：</strong> 对429、连接中断、参数错误、权限拒绝分开断言；限制总尝试次数和总deadline。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 提供崩溃重试边界，不模拟所有错误类型。</p>
+<h4 id="criterion-g3">G3 取消、暂停与后台任务</h4>
+<p>用户点取消或断开连接时，正在执行与排队的任务怎么处理。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> 可利用底层运行机制，但后台任务生命周期仍需服务层定义。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 任务取消与图状态可显式管理；实际远端操作是否已完成必须另查。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+A：</strong> 近期版本加入运行取消；官方server断连行为可能不符合后台任务需求。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> 主动中断及Cancel/TurnLoop路径可用；优雅取消与进程强杀是不同事件。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s18">S18</a>、<a href="#source-s28">S28</a>、<a href="#source-s08">S08</a>、<a href="#source-s74">S74</a>。</p>
+<p><strong>建议验证：</strong> 分别取消排队、模型生成、工具调用、人工等待；确认后续工具不再启动。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 展示强退，不等于优雅取消测试。</p>
+<h4 id="criterion-g4">G4 配额、公平调度与背压</h4>
+<p>一个用户发很多任务时，是否会挤占全部资源。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A：</strong> 局部middleware限流可用，全局/租户公平队列仍要外部实现。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A：</strong> 图内并行上限不等于跨进程配额与公平性。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A：</strong> 运行预算并不能自动提供多租户队列调度。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> goroutine便宜也不能无限启动；共享限流账本与队列仍需设计。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s42">S42</a>、<a href="#source-s24">S24</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 一个租户占80%流量；验证其他租户等待上限，队列满时要可解释地拒绝或延后。</p>
+<h3 id="section-6830107acf">H 测试与观测</h3>
+<p>观测帮助找到错误，测试帮助复现错误，质量评测帮助判断换模型后有没有退化，审计则回答谁批准和执行了操作。</p>
+<p><strong>对选型的影响：</strong> 希望开发与评测入口集中时优先ADK；其他框架可接外部评测与观测服务。</p>
+<h4 id="criterion-h1">H1 Tracing 与执行排错</h4>
+<p>能否看到一次任务中模型、工具、子任务的输入输出与耗时。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> LangSmith/Langfuse等已有接入路径；完整查看通常需要额外存储与界面。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E：</strong> 图/节点事件易关联trace，选用观测后端另行部署。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 官方logging/metrics/traces和集成可用；具体字段及隐私需配置。</p>
+</li>
+<li>
+<p><strong>Eino · 4E：</strong> callback和Langfuse扩展存在；不能说Go侧必须从零手写观测协议。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s13">S13</a>、<a href="#source-s12">S12</a>、<a href="#source-s47">S47</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 一条请求跨模型、工具、resume后仍可关联；错误与敏感字段能正确处理。</p>
+<h4 id="criterion-h2">H2 自动化质量评测</h4>
+<p>换模型/提示词后，能否发现回答和工具调用退化。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> 可接评测服务/库；需要自己准备业务数据、评价准则和基线。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E：</strong> 图状态和轨迹便于断言，效果评测依赖额外工具。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 官方evaluation入口是明确优势；仍不能由框架自动判断业务答案正确。</p>
+</li>
+<li>
+<p><strong>Eino · 3A+E：</strong> eino-ext 列有评测及优化扩展，可复用组件；未核实与 ADK 同等的一体化评测流程，不据此判定没有评测能力。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s11">S11</a>、<a href="#source-s23">S23</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 同时评价最终答案、工具轨迹、错误拒绝、成本；不能仅用一个LLM judge总分。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a>/<a href="#code-c02">C02</a> 是机制断言，不是回答质量评测。</p>
+<h4 id="criterion-h3">H3 单元测试与故障注入</h4>
+<p>不用真实模型时，是否能重复验证业务行为。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> 可替换模型和工具，离线模拟工具循环；副作用仍应隔离。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 纯函数节点与可控state适合确定性测试、故障注入。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+A：</strong> 可测试工具、回调及Runner；具体测试对象要避免共享session污染。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> 普通Go函数、接口mock及race检测适合工程测试；模型效果另测。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s11">S11</a>、<a href="#source-s42">S42</a>、<a href="#source-s23">S23</a>、<a href="#source-s60">S60</a>。</p>
+<p><strong>建议验证：</strong> 固定模型stub，注入超时/异常/重放，要求多次执行结果一致。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a>/<a href="#code-c02">C02</a>/<a href="#code-c05">C05</a>/<a href="#code-c07">C07</a>。</p>
+<h4 id="criterion-h4">H4 业务指标与审计</h4>
+<p>能否回答成功率、成本、越权尝试、谁批准了操作。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> usage和trace可作原料，成功率与合规审计要业务定义。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 事件可统计节点结果；checkpoint不是不可修改的审计账本。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+E+A：</strong> 有metrics基础，业务审计保留/授权/完整性仍需独立设计。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> callback可埋点，审计责任与trace不能混为一份随意保留的日志。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s13">S13</a>、<a href="#source-s06">S06</a>、<a href="#source-s47">S47</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 把排队、模型首token、最终完成分开；审批人、工具参数摘要、结果需可追溯。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 的计数仅供实验，不是合规审计系统。</p>
+<h3 id="section-6d3520c40e">I 部署与存储</h3>
+<p>部署形态、存储适配和多副本协调共同决定可运维性。共享数据库只能提供部分基础，并不自动实现整次run互斥。</p>
+<p><strong>对选型的影响：</strong> 运行时为硬约束时优先筛语言；其余路线以目标数据库和故障接管验收决定。</p>
+<h4 id="criterion-i1">I1 私有化与离线运行</h4>
+<p>能否不依赖厂商托管服务部署，能否禁止非必要外联。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> 可嵌入自建服务；模型、依赖和观测是否联网另行配置。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 开源库可自行部署，不强制购买LangSmith平台；服务运维要自己承担。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+A：</strong> 有自托管部署路径，不等于必须使用Google Cloud；模型选择影响离线性。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> 可构建Go服务交付；依赖下载、模型和外部组件仍需离线准备。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s05">S05</a>、<a href="#source-s48">S48</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 断开公网后安装、启动、执行、恢复；抓取出站连接确认没有隐式依赖。</p>
+<h4 id="criterion-i2">I2 持久化后端与数据库</h4>
+<p>有哪些可复用存储适配；维护责任和能力是否完整。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> 使用底层LangGraph savers；不能把不同维护者的适配视为相同保证。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E：</strong> PG/SQLite及MongoDB等路径存在，MySQL有独立维护者实现；需看并发及版本契约。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> DatabaseSessionService覆盖常见SQL数据库，需异步驱动与schema迁移。</p>
+</li>
+<li>
+<p><strong>Eino · 3A+E：</strong> CheckpointStore易接已有存储，但历史、原子性与多副本控制需明确补齐。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s09">S09</a>、<a href="#source-s15">S15</a>、<a href="#source-s16">S16</a>、<a href="#source-s22">S22</a>、<a href="#source-s28">S28</a>。</p>
+<p><strong>建议验证：</strong> 对目标数据库跑恢复、并发、历史清理和升级测试；不要只看写入一次成功。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 使用SQLite，不证明其他数据库已通过。</p>
+<h4 id="criterion-i3">I3 多副本与高可用</h4>
+<p>增加副本后能否接管未完成任务，避免两个副本同时执行。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A+E：</strong> 共享持久层是基础，任务分发/租约等由服务或平台补齐。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N+A+E：</strong> 可跨进程恢复，run单写者、抢占和故障接管仍需控制面。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A+E：</strong> 数据库会话锁有帮助，但append_event行锁不等于整次run互斥。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> 共享store可跨实例resume，leader/lease/重复运行控制不由存储接口自动解决。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 两个副本竞争同一任务、旧副本暂停后恢复，检查是否发生重复外部操作。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 是串行新进程恢复，未证明分布式租约正确。</p>
+<h4 id="criterion-i4">I4 语言、运行时与交付形态</h4>
+<p>有哪些语言实现；宿主需要什么运行环境。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E：</strong> 本表按Python实现评分；JS/TS另有实现，不假定API完全一致。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+E：</strong> Python及官方JS路线；Python包下限与CLI/扩展的要求应分别核对。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 有多语言SDK；本表以Python为主，各语言功能须逐项确认。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> Go编译交付适合Go团队；CGO、CPU架构与依赖可能影响二进制可移植性。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s01">S01</a>、<a href="#source-s02">S02</a>、<a href="#source-s14">S14</a>、<a href="#source-s17">S17</a>、<a href="#source-s25">S25</a>、<a href="#source-s26">S26</a>、<a href="#source-s65">S65</a>。</p>
+<p><strong>建议验证：</strong> 在目标OS/CPU和容器中离线构建启动；不能用“支持容器”跳过兼容验证。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c04">C04</a> 附go.mod；未在本机编译。</p>
+<h3 id="section-3c95562bde">J 维护与生态</h3>
+<p>维护成本来自升级、依赖组合、过时示例和问题响应。近期发布能证明有活动，不能证明未来维护承诺或修复SLA。</p>
+<p><strong>对选型的影响：</strong> 锁定版本与组件组合；没有采集响应统计前，不按社区印象淘汰候选。</p>
+<h4 id="criterion-j1">J1 升级兼容性</h4>
+<p>框架更新后，旧代码、状态和正在等待的任务是否还能工作。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> 需一起锁定core、provider、LangGraph及middleware，不能只升级一个包。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N+A：</strong> 有状态与图契约文档，但没有同场跨版本恢复测试，不能据此判定升级兼容性优于其他框架。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> 2.x快速演进且发布记录含breaking change；session schema也可能需迁移。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> 0.x已有明确迁移说明，说明行为在变化；不要把版本号当兼容保证。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s03">S03</a>、<a href="#source-s06">S06</a>、<a href="#source-s18">S18</a>、<a href="#source-s30">S30</a>。</p>
+<p><strong>建议验证：</strong> 保存上一版运行样本，升级后恢复并对比工具轨迹和状态。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a> 是同版本；跨版本测试待执行。</p>
+<h4 id="criterion-j2">J2 文档与问题定位材料</h4>
+<p>是否能找到概念、限制、API、完整示例，而不只是一段宣传介绍。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N：</strong> 概念和API材料齐全；新旧高层API混用时仍需留意文档版本。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N：</strong> state/interrupt/checkpointer有明确说明；学习成本不等于文档缺失。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N：</strong> 有开发、运行、评测文档；须分清旧Agent和2.x Workflow路线。</p>
+</li>
+<li>
+<p><strong>Eino · 3N：</strong> 有中文/英文文档和例子；必须检查示例对应的Eino版本。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s06">S06</a>、<a href="#source-s19">S19</a>、<a href="#source-s28">S28</a>。</p>
+<p><strong>建议验证：</strong> 让未参与开发的人仅凭文档复现故障；记录过时示例和缺失信息，不以页面数量评分。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a>–<a href="#code-c04">C04</a> 对比最小接入；不能据其推断总体学习工时。</p>
+<h4 id="criterion-j3">J3 维护活跃度与问题响应</h4>
+<p>多久发布、多少人维护、问题多久首次回复和修复。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 有近期版本，但本次未取得完整issue/PR统计，不能给响应速度分。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> 有近期版本；monorepo中CLI/SDK发布不能都算作graph核心更新。</p>
+</li>
+<li>
+<p><strong>Google ADK · U：</strong> 持续发布可确认，社区响应分布与企业支持SLA未测。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 稳定版与alpha并行发布，不能据印象认定低活跃；响应速度未测。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s03">S03</a>、<a href="#source-s18">S18</a>、<a href="#source-s26">S26</a>、<a href="#source-s62">S62</a>。</p>
+<p><strong>建议验证：</strong> 固定90天窗口，区分release/commit/issue，报告中位数/P90和未回复比例；stars不代替维护质量。</p>
+<h4 id="criterion-j4">J4 依赖与供应链治理</h4>
+<p>能否固定版本、追溯来源、扫描风险并及时更新。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3A：</strong> 拆分provider包便于按需安装，也增加依赖组合管理工作。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> core/saver/SDK有独立版本，需固定兼容组合并审查序列化依赖。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3A：</strong> extras可以按需选择；不应把全部可选集成默认装入生产。</p>
+</li>
+<li>
+<p><strong>Eino · 3A：</strong> go.mod/go.sum支持依赖管理；原生依赖与扩展仓库也要纳入扫描。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s02">S02</a>、<a href="#source-s17">S17</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 生成SBOM、固定制品hash、查安全公告和许可证；本次未做全依赖漏洞审计。</p>
+<h3 id="section-cc8cd18278">K 成本与退出</h3>
+<p>核心许可、商业平台、自建人力、模型调用和退出迁移共同构成成本。某个软件包免费不等于整个运行平台低成本。</p>
+<p><strong>对选型的影响：</strong> 按同等功能范围列费用与人力；退出方案先保留普通业务状态，再规划旧任务排空。</p>
+<h4 id="criterion-k1">K1 开源许可证</h4>
+<p>框架核心是否允许目标使用方式；扩展和模型是否另有条款。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N：</strong> 核心MIT；第三方包、模型和托管平台条款分别审查。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N：</strong> 核心MIT；不能把开源许可扩展到全部LangSmith产品。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> 核心Apache-2.0；Google Cloud服务条款单独计算。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> 核心Apache-2.0；企业自身分发与扩展依赖仍要逐项审查。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s01">S01</a>、<a href="#source-s03">S03</a>、<a href="#source-s17">S17</a>、<a href="#source-s26">S26</a>、<a href="#source-s63">S63</a>。</p>
+<p><strong>建议验证：</strong> 交付物逐包许可证清单，由负责人员确认使用与分发条件。</p>
+<h4 id="criterion-k2">K2 商业平台依赖</h4>
+<p>评测、监控、部署等完整体验是否依赖付费服务。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 核心可独立用；完整LangSmith自托管有商业要求，亦可接其他后端。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 库不强制付费平台；选择Agent Server/平台功能应另查授权，不能默认为免费。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+E+A：</strong> 本地运行与eval路径存在，云托管和高级服务另计费。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+E+A：</strong> 库可自行部署；缺少或另接的工作台会转化为工程和运维成本。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s12">S12</a>、<a href="#source-s13">S13</a>、<a href="#source-s23">S23</a>、<a href="#source-s48">S48</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 分别列软件费、基础设施费和自建人力；不把开源简单翻译成零成本。</p>
+<h4 id="criterion-k3">K3 Token 与调用预算</h4>
+<p>能否限制迭代次数、工具次数、上下文和总费用。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+A：</strong> middleware可限制调用并做摘要；预算币种、租户累计仍需应用管理。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+A：</strong> 可用state/条件边限制步骤；跨run预算要外部账本。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+A：</strong> 运行配置与上下文策略可控制部分调用；usage完整性随模型不同。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+A：</strong> 循环限制和中间件可控制调用；工具配额和货币成本需要自建统计。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s42">S42</a>、<a href="#source-s18">S18</a>、<a href="#source-s30">S30</a>。</p>
+<p><strong>建议验证：</strong> 构造无限规划倾向，确认达到上限会停止，且重试和resume不会绕过总预算。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a>的策略写法可复用，附件未实现计费账本。</p>
+<h4 id="criterion-k4">K4 更换框架与数据迁移</h4>
+<p>以后更换框架，需要重写哪些东西，历史任务怎么处置。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3A：</strong> 模型/工具抽象可保留一部分；middleware与运行状态需改写。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> 业务节点可能可复用；原生checkpoint不可直接交给其他框架继续执行。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3A：</strong> session/event可导出业务信息，但不能视为通用运行时快照。</p>
+</li>
+<li>
+<p><strong>Eino · 3A：</strong> 业务Go接口可保留；checkpoint和Agent协作类型仍绑定Eino。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s28">S28</a>。</p>
+<p><strong>建议验证：</strong> 抽取普通业务状态和工件，演练旧run排空；不要承诺跨框架无损热迁移。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c05">C05</a> 是可跨框架复用的业务策略例子。</p>
+<h3 id="section-8a9da296f7">L 性能实测</h3>
+<p>吞吐、内存、长期增长和实际成功率必须用相同条件测量。现有短批次LangGraph实验只能解释局部机制。</p>
+<p><strong>对选型的影响：</strong> 保留U，不发布性能冠军；达到业务正确性要求后再比较资源效率。</p>
+<h4 id="criterion-l1">L1 相同工作负载下的时延与吞吐</h4>
+<p>框架本身多花多少时间，而不是比较不同模型的快慢。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 没有同场实测，不按高层封装数量推断快慢。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> 已有局部合成负载结果，但不足以给四框架相对分。</p>
+</li>
+<li>
+<p><strong>Google ADK · U：</strong> 没有同场实测，不能把SDK异步能力当作生产QPS。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 没有同场实测，不能因Go语言就判定端到端更快。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s38">S38</a>、<a href="#source-s39">S39</a>。</p>
+<p><strong>建议验证：</strong> 同模型stub、节点数、持久化语义、数据量、硬件；测P50/P95/P99与开放到达率。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c08">C08</a>；不用于四框架性能排名。</p>
+<h4 id="criterion-l2">L2 内存、CPU与启动开销</h4>
+<p>空闲和高负载分别占多少资源，何时成为瓶颈。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 需要实际依赖组合和并发状态测量。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> 局部进程RSS不能外推完整服务及数据库总预算。</p>
+</li>
+<li>
+<p><strong>Google ADK · U：</strong> 加载的extras、模型客户端与事件历史影响资源占用。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 需测真实Go程序、GC与工作集；二进制形式不等于内存一定更低。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s02">S02</a>、<a href="#source-s17">S17</a>、<a href="#source-s38">S38</a>。</p>
+<p><strong>建议验证：</strong> 记录idle/peak RSS或cgroup、CPU秒、启动时间、连接数；包括所有子进程与sidecar。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c08">C08</a> 有局部采样，不是完整部署测量。</p>
+<h4 id="criterion-l3">L3 长期运行与状态增长</h4>
+<p>运行几小时或几个月后，checkpoint、history和缓存是否持续膨胀。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 应测长对话、摘要与历史保留，不只短demo。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> checkpoint写入量与保留策略会影响数据库和恢复速度。</p>
+</li>
+<li>
+<p><strong>Google ADK · U：</strong> session/event增长、压缩和清理行为需长时间验证。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 内存缓存与持久store的历史保留由具体实现决定。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s28">S28</a>、<a href="#source-s49">S49</a>。</p>
+<p><strong>建议验证：</strong> 稳定负载至少数小时并做历史规模分档测试，测存储/任务增长量和清理后恢复。</p>
+<h4 id="criterion-l4">L4 模型效果与系统成功率</h4>
+<p>相同问题下任务是否正确完成，代价与错误率如何。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 模型质量、prompt与工具设计共同决定，不能把简单API等同更高准确率。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> 流程控制可提高可预测性，但不能直接推出更高模型回答分。</p>
+</li>
+<li>
+<p><strong>Google ADK · U：</strong> 评测入口完善不代表实际业务得分一定最高。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 语言和框架不会自动改善模型理解；应使用相同数据和模型比较。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s23">S23</a>、<a href="#source-s11">S11</a>、<a href="#source-s45">S45</a>。</p>
+<p><strong>建议验证：</strong> 固定数据集与模型版本，多次采样；人工复核关键错误，报告置信区间和成本。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c01">C01</a>为确定性stub，不是模型效果成绩。</p>
+<h3 id="section-389f404bdb">M 记忆与知识</h3>
+<p>短期会话历史、长期事实记忆、RAG和摘要承担不同职责。记忆能查到不等于内容正确，也不等于当前用户有权使用。</p>
+<p><strong>对选型的影响：</strong> 简单RAG可从LangChain起步；多阶段检索与验证用LangGraph组织，其他路线按组件匹配。</p>
+<h4 id="criterion-m1">M1 会话历史与短期记忆</h4>
+<p>下一轮是否能接着上一轮交流，恢复后信息是否还在。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5N+E：</strong> 短期记忆通过checkpointer持久化；截断策略影响可见历史。</p>
+</li>
+<li>
+<p><strong>LangGraph · 5N+E：</strong> state/checkpointer可明确管理thread内历史；保留与压缩由应用选择。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> Session/Event管理对话历史；持久性取决于SessionService。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> Agent状态与store可组织历史，需要明确普通多轮与checkpoint的职责。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s50">S50</a>、<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 关闭进程后继续对话，检查事实、工具结果和挂起状态分别是否保留。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a>证明执行状态，不证明完整对话记忆产品。</p>
+<h4 id="criterion-m2">M2 跨会话长期记忆</h4>
+<p>能否保存用户偏好或业务事实，并管理更新、删除和冲突。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4E+A：</strong> 可接store/检索组件；哪些内容该记、何时失效需要业务策略。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4N+E+A：</strong> store与thread checkpoint分开，有利于区分长期事实和执行状态。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E+A：</strong> MemoryService等提供路径；隐私、范围与错误记忆修正仍应用负责。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> 可接Retriever/Indexer等组件建立长期记忆，但语义治理需自行实现。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s09">S09</a>、<a href="#source-s51">S51</a>、<a href="#source-s43">S43</a>。</p>
+<p><strong>建议验证：</strong> 跨会话读取、权限撤销、纠错与删除都应可测；不能把vector search等同记忆正确。</p>
+<h4 id="criterion-m3">M3 RAG 数据处理与检索</h4>
+<p>文档加载、切分、embedding、检索和来源引用是否容易组合。</p>
+<ul>
+<li>
+<p><strong>LangChain · 5E：</strong> 可以复用专门的数据与检索集成；新版高层入口变化须核对实际包。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E+A：</strong> 可编排检索步骤，但数据组件主要来自外部库。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+E：</strong> 可接检索工具/Memory等路径；目标数据源与搜索产品决定额外适配。</p>
+</li>
+<li>
+<p><strong>Eino · 4E：</strong> Loader/Parser/Indexer/Retriever等接口覆盖数据链路，具体数据库在扩展中。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s52">S52</a>、<a href="#source-s09">S09</a>、<a href="#source-s51">S51</a>、<a href="#source-s43">S43</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 同语料测召回、引用正确性、增量更新、权限过滤和无结果处理。</p>
+<h4 id="criterion-m4">M4 Context 压缩与摘要</h4>
+<p>长对话是否会超出模型窗口，压缩后是否丢关键事实。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N：</strong> 有SummarizationMiddleware等入口；摘要质量仍须测试。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E+A：</strong> 可显式设计裁剪/摘要节点或复用LangChain中间件。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N：</strong> 有context compression配置；适用路径和模型成本应核对。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> 有Summarization/Reduction等中间件；升级时关注对state的修改语义。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s40">S40</a>、<a href="#source-s49">S49</a>、<a href="#source-s30">S30</a>。</p>
+<p><strong>建议验证：</strong> 跨压缩保留约束、权限、资源ID和未完成计划；记录额外token与信息丢失。</p>
+<p><strong>代码与范围：</strong> <a href="#code-c07">C07</a>不测上下文压缩；需要长对话fixture。</p>
+<h3 id="section-cef5efd13c">N 扩展交互与协作</h3>
+<p>多模态、实时语音、跨服务Agent和Skills有不同协议及运行要求。普通streaming不能推导全部扩展能力。</p>
+<p><strong>对选型的影响：</strong> 受支持Live场景优先ADK；A2A与Skills的实验性状态及版本应单独控制。</p>
+<h4 id="criterion-n1">N1 多模态输入输出</h4>
+<p>图片、音频、文件等能否进入模型与工具流程。</p>
+<ul>
+<li>
+<p><strong>LangChain · 4N+E：</strong> 标准消息及provider支持多模态，但不是每个模型都支持所有媒体。</p>
+</li>
+<li>
+<p><strong>LangGraph · 4E+A：</strong> 图可传递媒体引用；解码、模型和前端能力由组件提供。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 模型Content/Part及相关运行路径支持多模态；需核对模型与transport组合。</p>
+</li>
+<li>
+<p><strong>Eino · 4N+E：</strong> 消息/模型扩展可接多模态；目标provider与消息格式需专门验证。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s45">S45</a>、<a href="#source-s57">S57</a>、<a href="#source-s43">S43</a>。</p>
+<p><strong>建议验证：</strong> 分别测图片理解、文件引用、超大媒体、权限与保留；不把base64传入成功当理解成功。</p>
+<h4 id="criterion-n2">N2 实时语音与打断</h4>
+<p>持续语音对话、用户插话、音视频同步是否有专门支持。</p>
+<ul>
+<li>
+<p><strong>LangChain · U：</strong> 普通token streaming不等于实时双向语音；本次未验证指定组合。</p>
+</li>
+<li>
+<p><strong>LangGraph · U：</strong> 可编排相关服务，但本次未核实可直接复用的完整实时链路。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 官方Live/Voice相关路径明确；延迟、打断与模型范围仍需实测。</p>
+</li>
+<li>
+<p><strong>Eino · U：</strong> 框架可扩展，但本次未核实完整实时语音方案，不能按Go并发能力推断。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s53">S53</a>。</p>
+<p><strong>建议验证：</strong> 测首音频时延、barge-in、断连恢复、回声处理及模型限制。</p>
+<h4 id="criterion-n3">N3 跨服务 Agent 协作 / A2A</h4>
+<p>不同进程甚至不同框架的 Agent 能否交换任务与结果。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 可接外部协议adapter，不能把进程内多Agent调用当A2A。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 图可调用远端Agent；协议任务生命周期和认证需外层管理。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4E：</strong> 官方A2A集成路径存在且页面标Experimental，需锁版本和验证兼容。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> 可通过外部SDK适配；本次不把未经核实的扩展算作开箱即用。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s54">S54</a>、<a href="#source-s46">S46</a>、<a href="#source-s42">S42</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 异构两端测试认证、取消、流式结果、版本不匹配和失败恢复。</p>
+<h4 id="criterion-n4">N4 Skills 与按需加载能力</h4>
+<p>是否能把说明、资源和操作方法按需载入，而非一次塞进全部prompt。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 可借助独立harness/扩展或自己加载；不把Deep Agents所有能力算入LangChain核心。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> 图可组织加载流程，但不是graph本身的通用技能市场。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> 有官方Skills路径，页面标记Experimental；需检查允许资源和执行权限。</p>
+</li>
+<li>
+<p><strong>Eino · 4N：</strong> 有Skill/AgentsMD等middleware路径；技能文本依然不能绕过工具权限。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s55">S55</a>、<a href="#source-s56">S56</a>。</p>
+<p><strong>建议验证：</strong> 测试按需加载、版本更新、恶意技能文本与未授权文件路径。</p>
+<h3 id="section-0249ffacc3">O 发布与持续运行</h3>
+<p>发布后，等待中的任务会与新代码、配置和工具版本同时存在。生产交付不仅是启动一个可调用的Agent。</p>
+<p><strong>对选型的影响：</strong> 将版本、调度、灰度和任务排空纳入系统设计；开源库与商业运行平台分开选型。</p>
+<h4 id="criterion-o1">O1 Prompt、模型与配置版本</h4>
+<p>一次运行能否关联当时的模型、prompt、工具schema、流程及配置版本。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3A：</strong> Agent配置可由代码管理，运行记录还需保存实际模型和middleware版本；选择prompt平台时另查许可。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A：</strong> 图定义与state可带版本信息；checkpoint不会自动保存完整发布环境。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3A：</strong> Agent、Workflow和模型配置可版本化；session历史不能替代完整配置快照。</p>
+</li>
+<li>
+<p><strong>Eino · 3A：</strong> Go程序版本可追踪，但动态prompt、模型路由和工具定义仍需独立记录。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s06">S06</a>、<a href="#source-s18">S18</a>、<a href="#source-s30">S30</a>。</p>
+<p><strong>建议验证：</strong> 用指定配置重现一次历史run，能准确列出当时依赖和动态配置，而不是只能找到Git提交。</p>
+<h4 id="criterion-o2">O2 CI/CD、灰度发布与回滚</h4>
+<p>新版本上线或回滚时，运行中与等待中的旧任务如何处理。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A+E：</strong> 库可嵌入现有发布流程；新旧middleware与底层运行状态要一起回归。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A+E：</strong> 图与serializer升级要兼容旧状态；路由到旧worker或排空任务由部署层安排。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A+E：</strong> 要同时核对SDK、server和session schema；回滚程序不等于数据库也能回滚。</p>
+</li>
+<li>
+<p><strong>Eino · 2A+E：</strong> 新旧Go二进制可并存，但checkpoint类型与中间件变化仍需迁移和恢复测试。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s18">S18</a>、<a href="#source-s30">S30</a>、<a href="#source-s71">S71</a>。</p>
+<p><strong>建议验证：</strong> 同时保留新旧任务做灰度，主动触发回滚，确认任务不丢失、不会重复执行外部操作。</p>
+<h4 id="criterion-o3">O3 定时任务与外部事件触发</h4>
+<p>Cron或消息触发Agent时，触发记录、去重与失败重试由谁负责。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A+E：</strong> Agent可由应用调用；本表不把商业平台调度算入开源库默认部署。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A+E：</strong> 可将图作为worker执行单元；持久触发队列、调度日历和触发去重需指定外部实现。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A+E：</strong> Runner或API可作为执行入口；完整调度与消息确认需按具体服务组合评估。</p>
+</li>
+<li>
+<p><strong>Eino · 2A+E：</strong> Go服务可接消息或定时器；本地timer不能代替跨副本持久调度。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s04">S04</a>、<a href="#source-s05">S05</a>、<a href="#source-s48">S48</a>、<a href="#source-s63">S63</a>。</p>
+<p><strong>建议验证：</strong> 计划触发前后分别停机，重复投递同一事件，核对触发记录、补跑和业务去重。</p>
+<h4 id="criterion-o4">O4 长时间等待与优雅退出</h4>
+<p>人工等待数小时或数日，以及worker更新时，能否释放资源并让任务继续。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3N+A：</strong> 可依赖底层interrupt保存等待状态；到期规则、通知和服务排空需应用实现。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3N+A：</strong> 持久interrupt可作为等待基础；审批到期、权限复验及版本路由需设计。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3N+A：</strong> RequestInput/resume提供等待入口；必须验证指定运行路径能跨进程继续。</p>
+</li>
+<li>
+<p><strong>Eino · 3N+A：</strong> checkpoint与中断可保存等待状态；需避免只把等待内容保存在进程内存。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s07">S07</a>、<a href="#source-s20">S20</a>、<a href="#source-s21">S21</a>、<a href="#source-s27">S27</a>。</p>
+<p><strong>建议验证：</strong> 进入等待后释放worker，换进程继续；等待期间升级、过期或撤销权限都要有明确结果。</p>
+<h3 id="section-6150401d35">P 数据与运行资产</h3>
+<p>运行状态之外，报告、文件、日志、记忆和备份也是需要治理的资产。删除、恢复与工具更新都可能跨多个系统。</p>
+<p><strong>对选型的影响：</strong> 需要原生生成物服务时重点看ADK；数据治理与灾备四条路线均需要部署级验收。</p>
+<h4 id="criterion-p1">P1 文件、报告与生成物管理</h4>
+<p>生成的文件是否有名称、版本、访问范围和可控下载方式。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3E+A：</strong> 模型和工具可处理文件引用；长期存储、下载和版本通常用外部服务。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3E+A：</strong> state宜保存生成物引用；大文件存储、链接授权和版本生命周期由应用管理。</p>
+</li>
+<li>
+<p><strong>Google ADK · 4N+E：</strong> ArtifactService管理命名及版本化二进制内容，有session/user范围；下载权限仍需应用保证。</p>
+</li>
+<li>
+<p><strong>Eino · 3E+A：</strong> 可用文件工具和外部对象存储；文件访问能力不等于完整报告发布与下载管理。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s68">S68</a>、<a href="#source-s06">S06</a>、<a href="#source-s66">S66</a>。</p>
+<p><strong>建议验证：</strong> 对同名生成物生成两个版本，验证跨租户下载、过期链接、删除及超大文件行为。</p>
+<h4 id="criterion-p2">P2 数据保留、脱敏与删除</h4>
+<p>删除用户数据时，checkpoint、memory、trace、缓存和文件能否一起处理。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A：</strong> 需协调会话状态与观测后端；一次删history不能证明所有副本被删除。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A：</strong> checkpoint/store分开有利于定义范围，但保留、脱敏和删除闭环仍需设计。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A：</strong> session、memory和artifact有各自服务；删除请求需覆盖这些服务与外部日志。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> store和扩展回调使用不同存储；应建立数据目录和统一删除流程。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s51">S51</a>、<a href="#source-s68">S68</a>。</p>
+<p><strong>建议验证：</strong> 用唯一合成标记追踪所有存储，执行保留/删除规则后逐一核对，记录备份残留的处理政策。</p>
+<h4 id="criterion-p3">P3 备份、灾难恢复与RPO/RTO</h4>
+<p>整套数据库或区域失效后，能否恢复状态与业务操作记录，并量化丢失与恢复时间。</p>
+<ul>
+<li>
+<p><strong>LangChain · 2A：</strong> 恢复运行依赖底层存储备份；业务防重账本与checkpoint必须一起规划。</p>
+</li>
+<li>
+<p><strong>LangGraph · 2A：</strong> checkpointer提供运行快照，数据库备份与跨区恢复是另一层责任。</p>
+</li>
+<li>
+<p><strong>Google ADK · 2A：</strong> SessionService后端和artifact后端需分别备份，恢复后验证run与event关联。</p>
+</li>
+<li>
+<p><strong>Eino · 2A：</strong> CheckPointStore接口不负责数据库灾备；外部资源实际状态还需对账。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s06">S06</a>、<a href="#source-s22">S22</a>、<a href="#source-s28">S28</a>、<a href="#source-s71">S71</a>。</p>
+<p><strong>建议验证：</strong> 从备份恢复到隔离环境，实测RPO和RTO，并核对恢复后是否重复外部操作。</p>
+<h4 id="criterion-p4">P4 工具目录、schema与协议版本</h4>
+<p>工具新增、移除或修改参数后，旧计划和等待中的操作是否仍可安全执行。</p>
+<ul>
+<li>
+<p><strong>LangChain · 3A+E：</strong> provider/MCP适配提供接入路径；schema快照、工具版本和旧调用处置需应用策略。</p>
+</li>
+<li>
+<p><strong>LangGraph · 3A+E：</strong> 图可以显式校验工具代际；仍需决定旧计划是兼容执行还是要求重新确认。</p>
+</li>
+<li>
+<p><strong>Google ADK · 3A+E：</strong> MCP/OpenAPI工具可发现能力；发现新工具不自动授权执行旧计划。</p>
+</li>
+<li>
+<p><strong>Eino · 3A+E：</strong> 工具接口与MCP扩展可接目录；缓存失效、schema变更与重新审批需自定义。</p>
+</li>
+</ul>
+<p>依据：<a href="#source-s10">S10</a>、<a href="#source-s58">S58</a>、<a href="#source-s59">S59</a>、<a href="#source-s31">S31</a>。</p>
+<p><strong>建议验证：</strong> 在人工等待期间改变工具参数或移除工具，验证旧输入被拒绝、迁移或重新确认。</p>
+<h2 id="section-7ddfa7bd08">关键边界与组合方式</h2>
+<h3 id="section-afece74049">AI2UI：区分运行交互与界面协议</h3>
+<p>用户看到文字流、Agent 请求表单、Agent 拉起现有页面、Agent 返回新组件描述、前端控件操作回传，属于不同能力。仅能 interrupt/resume 不能证明完成了 AI2UI。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>机制</th>
+<th>主要解决什么</th>
+<th>仍由产品与应用完成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>框架 streaming / custom events</td>
+<td>输出过程和自定义数据</td>
+<td>浏览器连接、事件存储、断线重放</td>
+</tr>
+<tr>
+<td>AG-UI</td>
+<td>Agent 与前端间事件、状态及工具交互</td>
+<td>框架适配、前端实现、权限与版本匹配</td>
+</tr>
+<tr>
+<td>A2UI</td>
+<td>用声明式数据描述界面与组件</td>
+<td>renderer、组件catalog、数据访问策略</td>
+</tr>
+<tr>
+<td>MCP Apps</td>
+<td>工具附带嵌入式交互 UI</td>
+<td>支持协议的host、隔离与能力授权</td>
+</tr>
+<tr>
+<td>自定义 UI intent</td>
+<td>调用既有产品的页面或组件能力</td>
+<td>schema、动作白名单、版本和生命周期管理</td>
+</tr>
+</tbody>
+</table></div>
+<p>可组合使用这些机制。例如 Agent 发出 ResourceDetail 的展示请求，前端按本地注册组件打开详情，用户调整过滤条件后回传结构化数据，再继续查询。Agent 不需要获得任意执行浏览器脚本的能力。附件 C06 展示这种数据边界，但没有实现 renderer，因此不能宣称通过了任何公开协议的兼容测试。</p>
+<p>依据：<a href="https://docs.langchain.com/oss/python/langgraph/streaming">S08 Streaming</a>；<a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_10_a2ui_protocol/">S32 Eino A2UI quickstart</a>；<a href="https://a2ui.org/specification/v0.9.1-a2ui/">S33 A2UI v0.9.1</a>；<a href="https://docs.ag-ui.com/introduction">S35 AG-UI introduction</a>；<a href="https://github.com/modelcontextprotocol/ext-apps">S36 MCP Apps 官方 SDK/spec</a>。</p>
+<h3 id="section-9cdd5fa8aa">Checkpoint、幂等与事务</h3>
+<p>checkpoint 是运行状态记录。外部 API 操作可能已经成功，但框架还没保存下一条记录，进程便退出。恢复后同一步可能再次执行。解决方法取决于外部系统：可用稳定的 idempotency key、防重表、outbox，或读取实际状态后做 reconciliation。框架恢复和业务事务之间没有天然的跨系统原子性。</p>
+<p>等待用户时还要处理重复提交、过期表单、权限变更和两个 worker 同时恢复。这些是 D2、E4、F1/F2 与 I3 的交叉验收事项，不应分别得分后就假定组合一定正确。C07 专门展示了“调用尝试两次、业务记录一次”的区别。</p>
+<p>依据：<a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">S06 Checkpointers</a>；<a href="https://docs.langchain.com/oss/python/langgraph/interrupts">S07 Interrupts</a>；<a href="https://adk.dev/runtime/resume/">S21 ADK resume</a>；<a href="https://www.cloudwego.io/docs/eino/core_modules/eino_adk/agent_hitl/">S27 Eino HITL</a>；<a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/checkpoint_interrupt/">S28 Eino checkpoint 手册</a>；本地证据：附件 C07。</p>
+<h3 id="section-4877306ce4">GIL、异步与多租户</h3>
+<p>默认 CPython 的 GIL 限制同一进程中 Python 字节码的线程并行，不会把正确使用 async 的网络等待全部串行化。相反，把纯 Python 的重计算或阻塞 SDK 放进 event loop，会阻塞其他任务；需要转到合适的线程、进程或外部 worker，具体取决于代码是否释放 GIL。</p>
+<p>Go 的 goroutine 提供不同的并发实现方式，但模型等待、数据库写入、连接池和供应商限额仍可能成为瓶颈。容器解决运行环境交付问题，不会自动解决 CPU 或隔离问题。必须把框架机制、资源占用和多租户公平调度分开评估。</p>
+<p>依据：<a href="https://docs.python.org/3/library/threading.html">S38 CPython threading</a>；<a href="https://docs.python.org/3/library/asyncio.html">S39 CPython asyncio</a>；<a href="https://go.dev/doc/effective_go#concurrency">S64 Effective Go — concurrency</a>；本地证据：附件 C08。</p>
+<h2 id="section-a36cf2e15b">核心代码与实验记录</h2>
+<p>以下代码用于解释具体机制，不能据此给所有比较项标记“验证通过”。C01/C02/C05 2026-10-06执行；C07/C08 复用2026-10-06先前通用实验原始记录。C03 未装载 ADK 运行，C04 未编译。实验不用真实模型或真实云平台，所以不评价模型效果和生产性能。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>内容</th>
+<th>状态 / 能证明的范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C01</td>
+<td>LangChain 工具循环</td>
+<td>T：真实 create_agent + 固定模型替身，工具结果 14</td>
+</tr>
+<tr>
+<td>C02</td>
+<td>LangGraph 结构化表单</td>
+<td>T：interrupt 返回表单，校验后恢复；仅 InMemorySaver</td>
+</tr>
+<tr>
+<td>C03</td>
+<td>ADK RequestInput</td>
+<td>D：参照官方 2.x 示例编写；仅 Python 语法检查，未运行</td>
+</tr>
+<tr>
+<td>C04</td>
+<td>Eino typed graph</td>
+<td>D：核心图 API 示例；无 Go 环境，未编译，无 go.sum</td>
+</tr>
+<tr>
+<td>C05</td>
+<td>应用侧权限与版本校验</td>
+<td>T：正常请求通过，5 类非法请求拒绝；不是完整认证系统</td>
+</tr>
+<tr>
+<td>C06</td>
+<td>自定义 UI intent 数据</td>
+<td>设计示例：不是 A2UI / AG-UI wire schema，无前端实测</td>
+</tr>
+<tr>
+<td>C07</td>
+<td>SQLite checkpoint + 强退恢复</td>
+<td>T：独立进程恢复，外部效果尝试 2 次，防重记录 1 条</td>
+</tr>
+<tr>
+<td>C08</td>
+<td>异步 I/O 与 CPU 干扰</td>
+<td>T：单机合成负载；没有四框架同场对比</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="code-c01">C01 LangChain：高层工具调用</h3>
+<p>模型替身使测试确定性运行；它不测模型决策质量。</p>
+<pre><code class="language-python">agent = create_agent(model=ScriptedModel(), tools=[double_number])
+result = agent.invoke({'messages':[{'role':'user','content':'Double 7'}]})
+</code></pre>
+<p>完整代码：附件内 <code>langchain_tool_demo.py</code>。</p>
+<h3 id="code-c02">C02 LangGraph：结构化输入与恢复</h3>
+<p>返回值必须自行校验；内存 saver 不能跨进程持久恢复。</p>
+<pre><code class="language-python">def collect(state):
+    value = interrupt({'form':'query', 'fields':['region','days']})
+    if set(value) != {'region','days'} or type(value['days']) is not int:
+        raise ValueError('Unexpected fields or days type')
+    if value['region'] not in ['east','west'] or not 1 &lt;= value['days'] &lt;= 30:
+        raise ValueError('Invalid form values')
+    return {'answer':value}
+</code></pre>
+<p>完整代码：附件内 <code>langgraph_form_demo.py</code>。</p>
+<h3 id="code-c03">C03 Google ADK：Workflow 请求输入</h3>
+<p>未运行；官方文档支持 RequestInput 路径，但完整运行环境兼容性尚待验证。</p>
+<pre><code class="language-python">def ask_number():
+    yield RequestInput(message='Enter an integer from 1 to 30')
+
+
+def calculate(node_input):
+    value = int(node_input)
+    if not 1 &lt;= value &lt;= 30:
+        raise ValueError('Value must be from 1 to 30')
+    return value * 2
+
+
+root_agent = Workflow(name='input_demo', edges=[('START',ask_number,calculate)])
+</code></pre>
+<p>完整代码：附件内 <code>adk_input_demo/agent.py</code>。</p>
+<h3 id="code-c04">C04 Eino：显式类型的节点</h3>
+<p>未编译；完整程序包含连边、Compile、Invoke和输出断言。</p>
+<pre><code class="language-go">graph := compose.NewGraph[int, int]()
+err := graph.AddLambdaNode(&quot;double&quot;, compose.InvokableLambda(
+    func(ctx context.Context, input int) (int, error) {
+        if input &lt; 1 || input &gt; 30 {
+            return 0, fmt.Errorf(&quot;input must be from 1 to 30&quot;)
+        }
+        return input * 2, nil
+    }))
+</code></pre>
+<p>完整代码：附件内 <code>eino_graph_demo/main.go</code>。</p>
+<h3 id="code-c05">C05 应用：身份、资源权限与旧表单拒绝</h3>
+<p>身份必须来自可信认证上下文；本函数不负责token校验、数据库隔离或并发防重。</p>
+<pre><code class="language-python">def authorize(identity, owner, event, current_revision, visible_resources):
+    if identity != owner:
+        raise PermissionError('Wrong owner')
+    if set(event) != {'revision','action','resource_id'}:
+        raise ValueError('Unexpected event fields')
+    if event['revision'] != current_revision:
+        raise ValueError('Stale interaction')
+    if event['action'] not in {'open_detail','submit_query'}:
+        raise PermissionError('Action is not allowed')
+    if event['resource_id'] not in visible_resources:
+        raise PermissionError('Resource is not visible')
+    return {'action':event['action'],'resource_id':event['resource_id']}
+</code></pre>
+<p>完整代码：附件内 <code>application_boundary_demo.py</code>。</p>
+<h3 id="code-c06">C06 自定义 UI intent</h3>
+<p>这是自定义数据格式的示意。服务端发出展示意图，浏览器用预注册组件渲染，用户事件交给 C05 校验，再路由到任务；不能把 client_to_server 中的字段当作可信身份。</p>
+<pre><code class="language-json">{
+  &quot;note&quot;: &quot;Custom illustrative protocol; NOT AG-UI or A2UI schema&quot;,
+  &quot;server_to_client&quot;: {
+    &quot;type&quot;: &quot;show_resource_panel&quot;,
+    &quot;surface_id&quot;: &quot;resource-panel&quot;,
+    &quot;revision&quot;: 2,
+    &quot;component&quot;: &quot;ResourceDetail&quot;,
+    &quot;props&quot;: {
+      &quot;resource_id&quot;: &quot;r1&quot;
+    },
+    &quot;allowed_actions&quot;: [
+      &quot;open_detail&quot;,
+      &quot;submit_query&quot;
+    ]
+  },
+  &quot;client_to_server&quot;: {
+    &quot;revision&quot;: 2,
+    &quot;action&quot;: &quot;open_detail&quot;,
+    &quot;resource_id&quot;: &quot;r1&quot;
+  }
+}
+</code></pre>
+<p>完整数据：附件内 <code>ui_event_example.json</code>。</p>
+<h3 id="code-c07">C07 故障后副作用可能重试</h3>
+<p>下面摘录的是业务效果节点。防重来自应用数据库的唯一键与 INSERT OR IGNORE，不是框架自动保证远端 API exactly-once。强退测试只影响脚本启动的子进程。</p>
+<pre><code class="language-python">def effect(state):
+    count(folder, 'effect_attempt')
+    # Simulates an external service's idempotency ledger in a SEPARATE DB.
+    # A real remote API must provide equivalent semantics or require reconciliation.
+    with connect(folder) as db:
+        db.execute('INSERT OR IGNORE INTO effects VALUES (?,?)', ('tenant-a/run-1/report-1', 'created'))
+    if crash:
+        os._exit(73)  # after effect commit, before graph checkpoint acknowledgement
+    return {'report': 'report-1'}
+</code></pre>
+<p>完整进程恢复与并发提交实验：附件内 <code>langgraph_probe.py</code>，原始结果：附件内 <code>results/langgraph-probe.json</code>。实际记录 prepare 1 次、interrupt 前逻辑 2 次、effect 尝试 2 次、唯一效果 1 条。另有应用事务的 20 路并发提交实验：接受 1 次；这不证明框架原生实现了多 worker 锁。</p>
+<h3 id="code-c08">C08 I/O 与 CPU 干扰</h3>
+<p>下面是同一个异步节点，有意加入纯 Python 计算以观察 event loop 受阻。四个连续节点各调用本机 TCP mock，服务端等待 50 ms；异步 SQLite saver 使用 sync durability。不是 LLM 性能实验。</p>
+<pre><code class="language-python">async def node(state):
+    reader, writer = await asyncio.open_connection('127.0.0.1', port)
+    writer.write(b'query\n')
+    await writer.drain()
+    await reader.readline()
+    writer.close()
+    await writer.wait_closed()
+    if cpu_work:
+        # Intentionally bad: pure Python CPU on the event loop, blocking ALL requests.
+        sum(i * i for i in range(150000))
+    return {'value': state['value'] + 1}
+</code></pre>
+<p>环境：Windows、Python 3.14.6、LangGraph 1.2.13、8 个逻辑 CPU、GIL 开启；每组 3 次短批次。P95 按每批完成请求计算；少量样本的尾部统计不稳定，不能作为 SLA。RSS 是进程峰值采样，不包含数据库服务或生产网关。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>并发任务</th>
+<th>节点内 CPU 计算</th>
+<th>P95 范围（秒）</th>
+<th>峰值 RSS 最大值（MiB）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>无</td>
+<td>0.3695–0.3904</td>
+<td>79.23</td>
+</tr>
+<tr>
+<td>10</td>
+<td>有</td>
+<td>0.7529–0.7919</td>
+<td>81.30</td>
+</tr>
+<tr>
+<td>50</td>
+<td>无</td>
+<td>1.4953–1.5868</td>
+<td>82.21</td>
+</tr>
+<tr>
+<td>50</td>
+<td>有</td>
+<td>3.5681–3.5990</td>
+<td>81.96</td>
+</tr>
+</tbody>
+</table></div>
+<p>结果仅说明该实现存在并发 I/O 路径，且 CPU 放置方式会影响等待时间；SQLite、操作系统调度等因素也参与其中。没有把差异单独归因于 GIL，也没有把此结果用于给四框架性能打分。</p>
+<p>完整负载脚本：附件内 <code>concurrency_probe.py</code>，原始结果：附件内 <code>results/concurrency-probe.json</code>。</p>
+<h2 id="section-188f160284">采用前验收与落地步骤</h2>
+<h3 id="section-35ab939b01">分阶段落地</h3>
+<p>先固定首选与备选、版本和目标组件；用相同模型替身与持久化要求验证机制；再接真实模型与业务工具验证效果；最后验证部署、恢复、权限和运行成本。任何阶段失败都应修正组合或换选。</p>
+<p>一个可验收组合至少要列出：编排库、模型/provider、工具/协议adapter、持久化后端、任务调度、鉴权、观测、UI协议与renderer。这样才能避免“选了一个框架”却不知道剩余模块谁负责。</p>
+<h3 id="section-8622c71143">必须能改变决策的测试</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>测试</th>
+<th>通过条件</th>
+<th>当前证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>跨进程中断恢复</td>
+<td>等待记录可读回，输入继续传递到正确步骤</td>
+<td>C07仅验证LangGraph+SQLite局部路径</td>
+</tr>
+<tr>
+<td>外部操作防重</td>
+<td>在远端成功、checkpoint前退出后，无重复业务效果或有明确对账</td>
+<td>C07由模拟下游唯一键保证，真实API待测</td>
+</tr>
+<tr>
+<td>重复提交与多worker</td>
+<td>同一交互至多被有效接受一次，旧worker不能重复执行</td>
+<td>C07仅应用SQLite事务20路提交，不是分布式租约</td>
+</tr>
+<tr>
+<td>权限撤销与跨租户</td>
+<td>恢复和工具执行前重验权限，所有读/列出/删除入口隔离</td>
+<td>C05/C07仅局部应用校验</td>
+</tr>
+<tr>
+<td>UI交互与断线</td>
+<td>多字段输入、页面操作、重复事件与过期表单结果明确</td>
+<td>C02/C06没有renderer，待真实前端验收</td>
+</tr>
+<tr>
+<td>组件兼容</td>
+<td>目标模型的工具/结构化/usage能力，MCP transport和认证均通过</td>
+<td>真实模型与MCP未测</td>
+</tr>
+<tr>
+<td>升级与回滚</td>
+<td>旧等待任务能兼容、迁移或明确拒绝，灰度回滚不丢任务</td>
+<td>四框架均未跨版本测试</td>
+</tr>
+<tr>
+<td>公平调度与取消</td>
+<td>单租户突发时其他租户仍能完成，取消后不启动新操作</td>
+<td>未做多副本多租户负载</td>
+</tr>
+<tr>
+<td>性能与资源</td>
+<td>在业务正确性相同前提下满足时延、错误和资源预算</td>
+<td>C08仅短批次合成负载</td>
+</tr>
+<tr>
+<td>质量与成本</td>
+<td>相同任务/模型多次采样，关键错误人工复核，记录token与费用</td>
+<td>没有真实模型效果数据</td>
+</tr>
+<tr>
+<td>数据保留与灾备</td>
+<td>覆盖状态/日志/文件/记忆/备份，实测RPO/RTO和删除流程</td>
+<td>未做部署级演练</td>
+</tr>
+<tr>
+<td>离线与供应链</td>
+<td>目标环境可构建运行，外联、许可和制品来源可追溯</td>
+<td>有实验依赖快照，没有完整安全审计</td>
+</tr>
+</tbody>
+</table></div>
+<p>吞吐实验应分成框架开销与端到端两层：前者使用固定mock，后者使用相同真实模型与任务。两层均固定硬件、持久性、节点数与数据规模，记录P50/P95/P99、错误、资源和业务效果。选择最小成本时，要同时计入模型、基础设施、软件产品和自建人力。</p>
+<h3 id="section-d819520dcc">决策记录与复评条件</h3>
+<p>采用后保存这组信息：选择及其前提、比较过的备选、决定性证据、仍需建设的模块、已知代价、验收结果和复评触发条件。模型/provider不再兼容、无法满足资源预算、升级导致旧任务无法继续、或某备选显著减少自建成本时，重新评估。此组织方法参考Google的ADR指南；并不意味着Google为本报告的框架结论背书。<a href="#source-s70">S70</a>。</p>
+<h2 id="section-a6c73c3c74">本次文档验收与证据边界</h2>
+<p>本次整合将场景结论、评分、逐维度理由、来源和核心代码置于同一阅读文档，新增发布与数据治理8项，并再次修正继承能力与安全等依据不足的分差。逐项改动记录、独立review输入和完整校验结果位于附件的 <code>review/</code> 与 <code>metadata/</code>。</p>
+<p>已经检查UTF-8、所有内部目标、矩阵与正文数据一致性、附件引用、代码语法及压缩包校验。浏览器验收检查文首、矩阵、长段落与窄屏布局；打印规则另做样式检查，尚未逐页验证纸面输出。文档验收与框架生产验收分开：ADK/Eino代码状态及真实模型、renderer、多副本实验的缺口均按原证据保留。</p>
+<h3 id="section-dccbc6df4f">资料组织参考</h3>
+<p>Microsoft的选型指南按需求与场景组织比较，并明确技术、运维、安全及团队因素；Google的ADR指南强调记录决策背景、选项和后果。本文借用这种组织方法，评分和Agent结论由本报告负责。<a href="#source-s70">S70</a>、<a href="#source-s71">S71</a>。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="比较表格"><table>
+<thead>
+<tr>
+<th>案例</th>
+<th>链接</th>
+<th>适用边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft：Choose an Azure compute service</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree">Microsoft：Choose an Azure compute service</a></td>
+<td>仅参考选型组织与表达，不作为Agent能力证据</td>
+</tr>
+<tr>
+<td>Google：Multicloud database management: Architectures, use cases, and best practices</td>
+<td><a href="https://docs.cloud.google.com/architecture/multi-cloud-database-management">Google：Multicloud database management: Architectures, use cases, and best practices</a></td>
+<td>仅参考选型组织与表达，不作为Agent能力证据</td>
+</tr>
+<tr>
+<td>阿里云：如何选择阿里云数据库服务</td>
+<td><a href="https://help.aliyun.com/zh/decision-guides/how-to-choose-database-service">阿里云：如何选择阿里云数据库服务</a></td>
+<td>仅参考选型组织与表达，不作为Agent能力证据</td>
+</tr>
+<tr>
+<td>华为云：数据库服务决策指南</td>
+<td><a href="https://support.huaweicloud.com/how-to-choose-databases/db_0001.html">华为云：数据库服务决策指南</a></td>
+<td>仅参考选型组织与表达，不作为Agent能力证据</td>
+</tr>
+<tr>
+<td>华为云：存储云服务选型指导</td>
+<td><a href="https://support.huaweicloud.com/intl/zh-cn/how-to-choose-storage/storage_0001.html">华为云：存储云服务选型指导</a></td>
+<td>仅参考选型组织与表达，不作为Agent能力证据</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-046949c730">来源与附件</h2>
+<p>在线文档会变化。来源索引保留精确URL和访问日期；固定版本源码以URL中的版本为准。本次不宣称已离线归档所有网页。S15等第三方集成只代表其维护方，不能视为核心团队支持承诺；S54/S55包含Experimental标记；S29旧版参考由S67核对当前基线。</p>
+<h3 id="source-s01">S01 LangGraph PyPI</h3>
+<p><a href="https://pypi.org/project/langgraph/">LangGraph PyPI</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s02">S02 固定版本 pyproject</h3>
+<p><a href="https://raw.githubusercontent.com/langchain-ai/langgraph/1.2.13/libs/langgraph/pyproject.toml">固定版本 pyproject</a> · 访问 2026-10-06 · 固定版本源码</p>
+<h3 id="source-s03">S03 LangChain PyPI</h3>
+<p><a href="https://pypi.org/project/langchain/">LangChain PyPI</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s04">S04 LangChain overview</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/overview">LangChain overview</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s05">S05 LangGraph overview</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/overview">LangGraph overview</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s06">S06 Checkpointers</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">Checkpointers</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s07">S07 Interrupts</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/interrupts">Interrupts</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s08">S08 Streaming</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/streaming">Streaming</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s09">S09 Memory / database savers</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/add-memory">Memory / database savers</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s10">S10 LangChain MCP</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/mcp">LangChain MCP</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s11">S11 LangChain testing</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/test">LangChain testing</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s12">S12 LangSmith self-hosted</h3>
+<p><a href="https://docs.langchain.com/langsmith/self-hosted">LangSmith self-hosted</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s13">S13 Langfuse LangChain integration</h3>
+<p><a href="https://langfuse.com/integrations/frameworks/langchain">Langfuse LangChain integration</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s14">S14 LangGraph.js</h3>
+<p><a href="https://github.com/langchain-ai/langgraphjs">LangGraph.js</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s15">S15 MySQL saver 维护者仓库</h3>
+<p><a href="https://github.com/tjni/langgraph-checkpoint-mysql">MySQL saver 维护者仓库</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s16">S16 MongoDB 集成仓库</h3>
+<p><a href="https://github.com/langchain-ai/langchain-mongodb">MongoDB 集成仓库</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s17">S17 Google ADK PyPI</h3>
+<p><a href="https://pypi.org/project/google-adk/">Google ADK PyPI</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s18">S18 Google ADK releases</h3>
+<p><a href="https://github.com/google/adk-python/releases">Google ADK releases</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s19">S19 ADK graph workflows</h3>
+<p><a href="https://adk.dev/graphs/">ADK graph workflows</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s20">S20 ADK human input</h3>
+<p><a href="https://adk.dev/graphs/human-input/">ADK human input</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s21">S21 ADK resume</h3>
+<p><a href="https://adk.dev/runtime/resume/">ADK resume</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s22">S22 ADK session service</h3>
+<p><a href="https://adk.dev/sessions/session/">ADK session service</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s23">S23 ADK evaluation</h3>
+<p><a href="https://adk.dev/evaluate/">ADK evaluation</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s24">S24 ADK safety</h3>
+<p><a href="https://adk.dev/safety/">ADK safety</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s25">S25 ADK Go</h3>
+<p><a href="https://github.com/google/adk-go">ADK Go</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s26">S26 Eino releases</h3>
+<p><a href="https://github.com/cloudwego/eino/releases">Eino releases</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s27">S27 Eino HITL</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/eino_adk/agent_hitl/">Eino HITL</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s28">S28 Eino checkpoint 手册</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/checkpoint_interrupt/">Eino checkpoint 手册</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s29">S29 Eino 0.9.19 workflow 源码</h3>
+<p><a href="https://raw.githubusercontent.com/cloudwego/eino/v0.9.19/adk/workflow.go">Eino 0.9.19 workflow 源码</a> · 访问 2026-10-06 · 固定版本源码</p>
+<h3 id="source-s30">S30 Eino v0.9 migration</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/release_notes_and_migration/eino_v0.9._agentic-runtime/eino_v0.9_migration_notes/">Eino v0.9 migration</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s31">S31 Eino extensions</h3>
+<p><a href="https://github.com/cloudwego/eino-ext">Eino extensions</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s32">S32 Eino A2UI quickstart</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_10_a2ui_protocol/">Eino A2UI quickstart</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s33">S33 A2UI v0.9.1</h3>
+<p><a href="https://a2ui.org/specification/v0.9.1-a2ui/">A2UI v0.9.1</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s34">S34 A2UI 仓库</h3>
+<p><a href="https://github.com/a2ui-project/a2ui">A2UI 仓库</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s35">S35 AG-UI introduction</h3>
+<p><a href="https://docs.ag-ui.com/introduction">AG-UI introduction</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s36">S36 MCP Apps 官方 SDK/spec</h3>
+<p><a href="https://github.com/modelcontextprotocol/ext-apps">MCP Apps 官方 SDK/spec</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s37">S37 MCP security practices</h3>
+<p><a href="https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices">MCP security practices</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s38">S38 CPython threading</h3>
+<p><a href="https://docs.python.org/3/library/threading.html">CPython threading</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s39">S39 CPython asyncio</h3>
+<p><a href="https://docs.python.org/3/library/asyncio.html">CPython asyncio</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s40">S40 LangChain middleware</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/middleware/overview">LangChain middleware</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s41">S41 LangChain structured output</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/structured-output">LangChain structured output</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s42">S42 LangGraph graph API</h3>
+<p><a href="https://docs.langchain.com/oss/python/langgraph/graph-api">LangGraph graph API</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s43">S43 Eino components</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/components/">Eino components</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s44">S44 ADK callbacks</h3>
+<p><a href="https://adk.dev/callbacks/">ADK callbacks</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s45">S45 LangChain models</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/models">LangChain models</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s46">S46 LangChain multi-agent</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/multi-agent">LangChain multi-agent</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s47">S47 ADK observability</h3>
+<p><a href="https://adk.dev/observability/">ADK observability</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s48">S48 ADK deployment</h3>
+<p><a href="https://adk.dev/deploy/">ADK deployment</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s49">S49 ADK context compression</h3>
+<p><a href="https://adk.dev/context/compaction/">ADK context compression</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s50">S50 LangChain short-term memory</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/short-term-memory">LangChain short-term memory</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s51">S51 ADK memory</h3>
+<p><a href="https://adk.dev/sessions/memory/">ADK memory</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s52">S52 Retrieval（原 LangChain 入口现转至 Deep Agents）</h3>
+<p><a href="https://docs.langchain.com/oss/python/deepagents/retrieval">Retrieval（原 LangChain 入口现转至 Deep Agents）</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s53">S53 ADK Live and Voice</h3>
+<p><a href="https://adk.dev/live/">ADK Live and Voice</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s54">S54 ADK A2A</h3>
+<p><a href="https://adk.dev/a2a/">ADK A2A</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s55">S55 ADK Skills</h3>
+<p><a href="https://adk.dev/skills/">ADK Skills</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s56">S56 Eino Skill middleware</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/eino_adk/eino_adk_chatmodelagentmiddleware/middleware_skill/">Eino Skill middleware</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s57">S57 ADK Simple agents</h3>
+<p><a href="https://adk.dev/agents/llm-agents/">ADK Simple agents</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s58">S58 ADK MCP tools</h3>
+<p><a href="https://adk.dev/tools-custom/mcp-tools/">ADK MCP tools</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s59">S59 ADK OpenAPI tools</h3>
+<p><a href="https://adk.dev/tools-custom/openapi-tools/">ADK OpenAPI tools</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s60">S60 Eino graph introduction</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/chain_graph_introduction/">Eino graph introduction</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s61">S61 LangChain human-in-the-loop</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/human-in-the-loop">LangChain human-in-the-loop</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s62">S62 LangGraph releases</h3>
+<p><a href="https://github.com/langchain-ai/langgraph/releases">LangGraph releases</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s63">S63 Eino 仓库与许可证入口</h3>
+<p><a href="https://github.com/cloudwego/eino">Eino 仓库与许可证入口</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s64">S64 Effective Go — concurrency</h3>
+<p><a href="https://go.dev/doc/effective_go#concurrency">Effective Go — concurrency</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s65">S65 Eino v0.9.21 go.mod</h3>
+<p><a href="https://raw.githubusercontent.com/cloudwego/eino/v0.9.21/go.mod">Eino v0.9.21 go.mod</a> · 访问 2026-10-06 · 固定版本源码</p>
+<h3 id="source-s66">S66 Eino middleware</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/eino_adk/eino_adk_chatmodelagentmiddleware/">Eino middleware</a> · 访问 2026-10-06 · 在线文档/项目元数据；可能更新</p>
+<h3 id="source-s67">S67 Eino v0.9.21 Workflow Agent 源码</h3>
+<p><a href="https://raw.githubusercontent.com/cloudwego/eino/v0.9.21/adk/workflow.go">Eino v0.9.21 Workflow Agent 源码</a> · 访问 2026-10-06 · 固定版本源码</p>
+<h3 id="source-s68">S68 ADK Artifacts</h3>
+<p><a href="https://adk.dev/artifacts/">ADK Artifacts</a> · 访问 2026-10-07 · 官方文档</p>
+<h3 id="source-s70">S70 Google Cloud Architecture decision records</h3>
+<p><a href="https://docs.cloud.google.com/architecture/architecture-decision-records">Google Cloud Architecture decision records</a> · 访问 2026-10-07 · 官方文档</p>
+<h3 id="source-s71">S71 Microsoft Prepare to choose a data store</h3>
+<p><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/data-stores-getting-started">Microsoft Prepare to choose a data store</a> · 访问 2026-10-07 · 官方文档</p>
+<h3 id="source-s72">S72 Eino Agent Collaboration</h3>
+<p><a href="https://www.cloudwego.io/docs/eino/core_modules/eino_adk/agent_collaboration/">Eino Agent Collaboration</a> · 访问 2026-10-07 · 官方文档</p>
+<h3 id="source-s73">S73 Eino v0.9.21 graph_run.go</h3>
+<p><a href="https://raw.githubusercontent.com/cloudwego/eino/v0.9.21/compose/graph_run.go">Eino v0.9.21 graph_run.go</a> · 访问 2026-10-07 · 固定版本源码</p>
+<h3 id="source-s74">S74 LangChain Streaming</h3>
+<p><a href="https://docs.langchain.com/oss/python/langchain/streaming">LangChain Streaming</a> · 访问 2026-10-07 · 官方文档</p>
+<h3 id="section-65b7a59aa6">唯一附件</h3>
+<p>下载同目录的 <strong><a href="Agent%E6%A1%86%E6%9E%B6%E9%80%89%E5%9E%8B%E9%99%84%E4%BB%B6.zip">Agent框架选型附件.zip</a></strong>。解压后包含：</p>
+<ul>
+<li><code>code/</code>：完整示例、运行说明、实验依赖快照和原始结果。</li>
+<li><code>metadata/</code>：64项评分数据、来源索引、验收结果与文件hash。</li>
+<li><code>review/</code>：独立案例收集、独立技术复核与本次决策修正记录。</li>
+<li><code>source/</code>：本文可编辑Markdown和生成程序。阅读本文不依赖这些文件。</li>
+</ul>
+<p>文档可直接在浏览器离线打开；引用的在线资料需联网查看。HTML内置样式，不加载外部字体或脚本。打印时隐藏目录与工具栏，保留全部正文及代码。</p>
+<footer>资料与实验的边界已在正文注明。所有完整代码与复现材料位于唯一附件。</footer></main>
+<script>// Optional reading conveniences; all text and links work without JavaScript.
+document.getElementById('print-button').addEventListener('click',()=>window.print());
+const navLinks=[...document.querySelectorAll('aside a')];
+const navById=new Map(navLinks.map(a=>[a.getAttribute('href').slice(1),a]));
+const headings=[...document.querySelectorAll('h2,h3')].filter(h=>navById.has(h.id));
+let scheduled=false;
+function updateNav(){
+  scheduled=false;
+  let current=headings[0];
+  for(const h of headings){if(h.getBoundingClientRect().top<=115)current=h;else break;}
+  const active=current&&navById.get(current.id);
+  if(!active)return;
+  navLinks.forEach(a=>{a.classList.toggle('active',a===active);if(a===active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+}
+window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(updateNav);}},{passive:true});
+window.addEventListener('hashchange',updateNav);
+updateNav();
+</script></body></html>
